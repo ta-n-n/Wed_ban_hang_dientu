@@ -3,40 +3,30 @@ package org.soft.elec.entity.models;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "variations")
+@Table(name = "variation_values")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Variation {
+public class VariationValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String uid;
 
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "variation_id")
+    private Variation variation;
 
-    @Column(name = "is_global")
-    private Boolean isGlobal;
+    private String value;
 
     private Integer position;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToMany(mappedBy = "variations")
-    private List<Product> products;
-
-    @OneToMany(mappedBy = "variation")
-    private List<VariationValue> variationValues;
-
 }

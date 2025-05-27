@@ -14,18 +14,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @Column(unique = true, length = 100)
     private String email;
 
+    @Column(length = 20)
     private String phone;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private boolean enabled;
+
+    @Column(length = 50)
     private String role;
 
     @Column(name = "last_login")
