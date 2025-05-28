@@ -144,7 +144,7 @@ public class AuthServiceImpl implements AuthService {
                     (user.getLastName() != null ? user.getLastName() : "");
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                     .subject(user.getEmail())
-                    .issuer("meeting-room-booking")
+                    .issuer("elec")
                     .issueTime(new Date())
                     .expirationTime(Date.from(Instant.now().plus(expirationMinutes, ChronoUnit.MINUTES)))
                     .jwtID(UUID.randomUUID().toString())
