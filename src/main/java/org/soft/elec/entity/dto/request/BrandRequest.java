@@ -1,0 +1,28 @@
+package org.soft.elec.entity.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.soft.elec.entity.models.Product;
+
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BrandRequest {
+
+    @NotBlank(message = "{brandname.notblank}")
+    private String name;
+
+    @NotNull(message = "{brand.active}")
+    private Boolean isActive; //0:Disable　1: Enable
+
+    private String fileLogo;
+
+    private List<Product> products;
+}

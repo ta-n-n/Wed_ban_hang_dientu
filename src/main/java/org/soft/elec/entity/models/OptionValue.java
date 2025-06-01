@@ -2,6 +2,9 @@ package org.soft.elec.entity.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,17 +22,20 @@ public class OptionValue {
     @JoinColumn(name = "option_id")
     private Option option;
 
-    @Column(precision = 18, scale = 4)
+    @Column(name = "price", precision = 18, scale = 4)
     private BigDecimal price;
 
     @Column(name = "price_type")
     private String priceType;
 
+    @Column(name = "position")
     private Integer position;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

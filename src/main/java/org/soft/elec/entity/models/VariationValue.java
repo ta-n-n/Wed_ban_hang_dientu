@@ -2,6 +2,11 @@ package org.soft.elec.entity.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,19 +19,25 @@ public class VariationValue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String uid;
+    @Column(name = "label", nullable = false)
+    private String label;
 
     @ManyToOne
-    @JoinColumn(name = "variation_id")
+    @JoinColumn(name = "variation_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Variation variation;
 
+    @Column(name = "value")
     private String value;
 
+    @Column(name = "position")
     private Integer position;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

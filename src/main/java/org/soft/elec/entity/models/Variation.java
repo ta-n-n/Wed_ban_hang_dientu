@@ -2,6 +2,9 @@ package org.soft.elec.entity.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,21 +18,26 @@ public class Variation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String uid;
+    @Column(name = "name", nullable = false)
+    private String name;
 
+    @Column(name = "type", nullable = false)
     private String type;
 
     @Column(name = "is_global")
     private Boolean isGlobal;
 
+    @Column(name = "position")
     private Integer position;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 

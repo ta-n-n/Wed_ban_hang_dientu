@@ -1,14 +1,12 @@
 package org.soft.elec.entity.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "invalidated_token")
@@ -18,6 +16,24 @@ import java.util.Date;
 @AllArgsConstructor
 public class InvalidatedToken {
     @Id
-    private String id;
-    private Date expiryTime;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "email", unique = true, length = 100)
+    private String email;
+
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "role", length = 50)
+    private String role;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
+
+    @Column(name = "acceped_at")
+    private LocalDateTime accepedAt ;
 }

@@ -10,48 +10,45 @@ import lombok.*;
 public class UserRequest {
 
     // firstName: không được để trống, tối đa 50 ký tự
-    @NotBlank(message = "firstName.notblank")
-    @Size(max = 50, message = "firstName.maxsize")
+    @NotBlank(message = "{firstname.notblank}")
+    @Size(max = 50, message = "{firstname.maxsize}")
     private String firstName;
 
     // lastName: không được để trống, tối đa 50 ký tự
-    @NotBlank(message = "lastName.notblank")
-    @Size(max = 50, message = "lastName.maxsize")
+    @NotBlank(message = "{firstname.notblank}")
+    @Size(max = 50, message = "{firstname.maxsize}")
     private String lastName;
 
     // email: không để trống, đúng định dạng email, tối đa 100 ký tự
-    @NotBlank(message = "email.notblank")
-    @Size(max = 100, message = "email.maxsize")
+    @NotBlank(message = "{email.notblank}")
+    @Size(max = 100, message = "{email.maxsize}")
     @Pattern(
             regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
             message = "{email.invalid}")
     private String email;
 
     // phone: tối đa 20 ký tự, chỉ chứa số
-    @Size(max = 20, message = "phone.maxsize")
-    @Pattern(regexp = "^[0-9]*$", message = "phone.pattern.digits")
+    @Size(max = 20, message = "{phone.maxsize}")
+    @Pattern(regexp = "^[0-9]*$", message = "{phone.pattern.digits}")
     private String phone;
 
     // password: không để trống (khi tạo mới), tối thiểu 8 ký tự, bao gồm ký tự hoa, thường, số, ký tự đặc biệt, không chứa khoảng trắng
-    @NotBlank(message = "password.notblank")
-    @Pattern(regexp = "^[^\\s]+$", message = "password.pattern.nospaces")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "password.pattern.complexity")
+    @NotBlank(message = "{password.notblank}")
+    @Pattern(regexp = "^[^\\s]+$", message = "{password.pattern.nospaces}")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$", message = "{password.pattern.complexity}")
     private String password;
 
     private boolean enabled;
 
     // role: không để trống, tối đa 50 ký tự
-    @NotBlank(message = "role.notblank")
-    @Size(max = 50, message = "role.maxsize")
+    @NotBlank(message = "{role.notblank}")
+    @Size(max = 50, message = "{role.maxsize}")
     private String role;
 
-    // lastLogin: có thể null, format LocalDateTime, thường không validate ở đây vì do hệ thống set
     private String lastLogin;
 
-    // createdAt: có thể null, format LocalDateTime
     private String createdAt;
 
-    // updatedAt: có thể null, format LocalDateTime
     private String updatedAt;
 
 }

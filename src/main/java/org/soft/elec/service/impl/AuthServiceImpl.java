@@ -13,6 +13,7 @@ import org.soft.elec.entity.dto.request.RefreshRequest;
 import org.soft.elec.entity.dto.response.AuthResponse;
 import org.soft.elec.entity.dto.response.IntrospectResponse;
 import org.soft.elec.entity.enums.ErrorCode;
+import org.soft.elec.entity.enums.Role;
 import org.soft.elec.entity.models.User;
 import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.InvalidatedTokenRepository;
@@ -27,6 +28,7 @@ import org.soft.elec.entity.models.InvalidatedToken;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
@@ -84,14 +86,20 @@ public class AuthServiceImpl implements AuthService {
                 String refreshJit = refreshJWT.getJWTClaimsSet().getJWTID();
                 Date refreshExp = refreshJWT.getJWTClaimsSet().getExpirationTime();
                 invalidatedTokenRepository.save(
-                        InvalidatedToken.builder().id(refreshJit).expiryTime(refreshExp).build());
+                        InvalidatedToken.builder()
+                                .token(refreshJit)
+                                .expiresAt(refreshExp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                                .build());
             }
             if (request.getAccessToken() != null) {
                 var accessJWT = verifyToken(request.getAccessToken(), ACCESS_SECRET);
                 String accessJit = accessJWT.getJWTClaimsSet().getJWTID();
                 Date accessExp = accessJWT.getJWTClaimsSet().getExpirationTime();
                 invalidatedTokenRepository.save(
-                        InvalidatedToken.builder().id(accessJit).expiryTime(accessExp).build());
+                        InvalidatedToken.builder()
+                                .token(accessJit)
+                                .expiresAt(accessExp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                                .build());
             }
         } catch (AppEx e) {
             log.info("Token already expired or invalid");
@@ -162,11 +170,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
-    private String buildScope(String role) {
-        if (role == null || role.isEmpty()) {
+    private String buildScope(Role role) {
+        if (role == null) {
             return "";
         }
-        return "ROLE_" + role.toUpperCase();
+        return "ROLE_" + role.name().toUpperCase();
     }
 
 }

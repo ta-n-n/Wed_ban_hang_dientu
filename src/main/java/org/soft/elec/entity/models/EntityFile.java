@@ -1,37 +1,37 @@
 package org.soft.elec.entity.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "options")
+@Table(name = "entity_files")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Option {
+public class EntityFile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "type")
-    private String type;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id", nullable = false)
+    private File file;
 
-    @Column(name = "is_required")
-    private Boolean isRequired;
+    @Column(name = "entity_id", nullable = false)
+    private Integer entityId;
 
-    @Column(name = "is_global")
-    private Boolean isGlobal;
+    @Column(name = "entity_type", nullable = false)
+    private String entityType;
 
-    @Column(name = "position")
-    private Integer position;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    @Column(name = "zone", nullable = false)
+    private String zone;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -40,7 +40,4 @@ public class Option {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "option")
-    private List<OptionValue> values;
 }
