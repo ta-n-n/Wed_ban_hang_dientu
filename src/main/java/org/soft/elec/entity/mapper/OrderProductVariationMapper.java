@@ -8,6 +8,5 @@ import org.soft.elec.entity.models.OrderProductVariation;
 @Mapper(componentModel = "spring")
 public interface OrderProductVariationMapper {
     OrderProductVariation toEntity(OrderProductVariationRequest orderProductVariationRequest);
-
     OrderProductVariationResponse toResponse(OrderProductVariation orderProductVariation);
 }

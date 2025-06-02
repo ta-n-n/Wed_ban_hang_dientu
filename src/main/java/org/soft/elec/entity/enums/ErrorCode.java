@@ -15,9 +15,9 @@ public enum ErrorCode {
     INVALID_OTP(HttpStatus.BAD_REQUEST, "Invalid OTP."),
     OTP_EXPIRED(HttpStatus.BAD_REQUEST, "OTP has expired."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Old password is incorrect."),
-//    NEW_PASSWORD_MUST_BE_DIFFERENT(
-//            HttpStatus.BAD_REQUEST, "New password must be different from current password."),
-//    INVALID_TIME_RANGE(HttpStatus.BAD_REQUEST, "Start time must be before end time."),
+
+    BRAND_NOT_FOUND(HttpStatus.NOT_FOUND, "Brand not found."),
+
 
     USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "UserName already exists."),
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "Email already exists."),

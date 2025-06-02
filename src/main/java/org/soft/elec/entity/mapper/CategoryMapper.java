@@ -8,6 +8,5 @@ import org.soft.elec.entity.models.Category;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
     Category toEntity(CategoryRequest categoryRequest);
-
     CategoryResponse toResponse(Category category);
 }

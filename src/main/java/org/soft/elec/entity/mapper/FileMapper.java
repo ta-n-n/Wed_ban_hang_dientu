@@ -8,6 +8,5 @@ import org.soft.elec.entity.models.File;
 @Mapper(componentModel = "spring")
 public interface FileMapper {
     File toEntity(FileRequest fileRequest);
-
     FileResponse toResponse(File file);
 }

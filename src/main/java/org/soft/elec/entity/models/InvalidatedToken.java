@@ -19,7 +19,7 @@ public class InvalidatedToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "email", unique = true, length = 100)
+    @Column(name = "email", length = 100)
     private String email;
 
     @Column(name = "token")
@@ -34,6 +34,6 @@ public class InvalidatedToken {
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 
-    @Column(name = "acceped_at")
-    private LocalDateTime accepedAt ;
+    @Column(name = "accepted_at")
+    private LocalDateTime acceptedAt;
 }
