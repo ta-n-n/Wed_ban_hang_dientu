@@ -24,7 +24,6 @@ public class IntrospectResponse {
             this.valid = valid;
             return this;
         }
-
         public IntrospectResponse build() {
             return new IntrospectResponse(valid);
         }

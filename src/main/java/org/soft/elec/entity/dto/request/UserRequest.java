@@ -46,10 +46,5 @@ public class UserRequest {
     private String role;
 
     private String lastLogin;
-
-    private String createdAt;
-
-    private String updatedAt;
-
 }
 

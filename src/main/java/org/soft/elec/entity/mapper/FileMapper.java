@@ -1,6 +1,7 @@
 package org.soft.elec.entity.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.soft.elec.entity.dto.request.FileRequest;
 import org.soft.elec.entity.dto.response.FileResponse;
 import org.soft.elec.entity.models.File;
@@ -9,4 +10,5 @@ import org.soft.elec.entity.models.File;
 public interface FileMapper {
     File toEntity(FileRequest fileRequest);
     FileResponse toResponse(File file);
+    void updateEntity(FileRequest fileRequest, @MappingTarget File file);
 }

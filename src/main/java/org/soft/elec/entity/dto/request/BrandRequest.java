@@ -23,6 +23,4 @@ public class BrandRequest {
     private Boolean isActive; //0:Disable　1: Enable
 
     private String fileLogo;
-
-    private List<Product> products;
 }

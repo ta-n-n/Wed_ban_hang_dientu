@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class VariationValueRequest {
     private String label;
-
     private Integer variationId;
-
     private String value;
-
     private Integer position;
 }

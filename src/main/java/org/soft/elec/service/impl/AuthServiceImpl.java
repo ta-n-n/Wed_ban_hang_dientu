@@ -19,7 +19,6 @@ import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.InvalidatedTokenRepository;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

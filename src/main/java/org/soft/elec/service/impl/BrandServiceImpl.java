@@ -22,9 +22,9 @@ public class BrandServiceImpl implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
 
-    private void checkBrandExistence(Integer id) {
+    private void checkBrandExist(Integer id) {
         if (!brandRepository.existsById(id)) {
-            throw new AppEx(ErrorCode.INVALID_INPUT);
+            throw new AppEx(ErrorCode.BRAND_ALREADY_EXISTS);
         }
     }
 
@@ -50,14 +50,14 @@ public class BrandServiceImpl implements BrandService {
     @Override
     @Transactional
     public void deleteBrand(Integer id) {
-        checkBrandExistence(id);
+        checkBrandExist(id);
         brandRepository.deleteById(id);
     }
 
     @Override
     public BrandResponse getBrandById(Integer id) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new AppEx(ErrorCode.INVALID_INPUT));
+                .orElseThrow(() -> new AppEx(ErrorCode.BRAND_NOT_FOUND));
         return brandMapper.toResponse(brand);
     }
 

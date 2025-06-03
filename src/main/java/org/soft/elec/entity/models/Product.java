@@ -113,5 +113,4 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<ProductVariant> variants; // Các biến thể của sản phẩm (size, color, v.v.)
-
 }

@@ -16,7 +16,27 @@ public enum ErrorCode {
     OTP_EXPIRED(HttpStatus.BAD_REQUEST, "OTP has expired."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Old password is incorrect."),
 
+
+
+
+    //404
     BRAND_NOT_FOUND(HttpStatus.NOT_FOUND, "Brand not found."),
+    BRAND_ALREADY_EXISTS(HttpStatus.CONFLICT, "Brand already exists."),
+
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found."),
+    USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "User already exists."),
+
+    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "File not found."),
+    FILE_ALREADY_EXISTS(HttpStatus.CONFLICT, "File already exists."),
+
+    ENTITYFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "Entity file not found."),
+    ENTITYFILE_ALREADY_EXISTS(HttpStatus.CONFLICT, "Entity already exists."),
+
+    CANNOT_DELETE_ADMIN(HttpStatus.CONFLICT, "Cannot delete admin"),
+
+
+
+
 
 
     USERNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "UserName already exists."),
@@ -27,9 +47,6 @@ public enum ErrorCode {
     INVALID_LOGIN(HttpStatus.UNAUTHORIZED, "Incorrect email or password."),
     NOT_ACTIVE(HttpStatus.FORBIDDEN, "This account is not active."),
     UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "User is not authenticated."),
-
-    // Các lỗi 404 Not Found
-    CANNOT_DELETE_ADMIN(HttpStatus.CONFLICT, "Cannot delete admin"),
 
     // Lỗi 500 Internal Server Error
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
