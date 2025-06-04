@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset Vu:1748941140013-1
+-- changeset Vu:1748942002117-1
 CREATE TABLE brands
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE brands
     CONSTRAINT pk_brands PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-2
+-- changeset Vu:1748942002117-2
 CREATE TABLE categories
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE categories
     CONSTRAINT pk_categories PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-3
+-- changeset Vu:1748942002117-3
 CREATE TABLE entity_files
 (
     id          INT AUTO_INCREMENT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE entity_files
     CONSTRAINT pk_entity_files PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-4
+-- changeset Vu:1748942002117-4
 CREATE TABLE files
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE files
     CONSTRAINT pk_files PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-5
+-- changeset Vu:1748942002117-5
 CREATE TABLE invalidated_token
 (
     id          INT AUTO_INCREMENT NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE invalidated_token
     CONSTRAINT pk_invalidated_token PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-6
+-- changeset Vu:1748942002117-6
 CREATE TABLE option_values
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE option_values
     CONSTRAINT pk_option_values PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-7
+-- changeset Vu:1748942002117-7
 CREATE TABLE options
 (
     id          INT AUTO_INCREMENT NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE options
     CONSTRAINT pk_options PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-8
+-- changeset Vu:1748942002117-8
 CREATE TABLE order_product_variation_values
 (
     id                         INT AUTO_INCREMENT NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE order_product_variation_values
     CONSTRAINT pk_order_product_variation_values PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-9
+-- changeset Vu:1748942002117-9
 CREATE TABLE order_product_variations
 (
     id               INT AUTO_INCREMENT NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE order_product_variations
     CONSTRAINT pk_order_product_variations PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-10
+-- changeset Vu:1748942002117-10
 CREATE TABLE order_products
 (
     id                 INT AUTO_INCREMENT NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE order_products
     CONSTRAINT pk_order_products PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-11
+-- changeset Vu:1748942002117-11
 CREATE TABLE orders
 (
     id                  INT AUTO_INCREMENT NOT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE orders
     CONSTRAINT pk_orders PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-12
+-- changeset Vu:1748942002117-12
 CREATE TABLE password_reset_otp
 (
     otp          VARCHAR(255) NOT NULL,
@@ -181,21 +181,21 @@ CREATE TABLE password_reset_otp
     CONSTRAINT pk_password_reset_otp PRIMARY KEY (otp)
 );
 
--- changeset Vu:1748941140013-13
+-- changeset Vu:1748942002117-13
 CREATE TABLE product_categories
 (
     category_id INT NOT NULL,
     product_id  INT NOT NULL
 );
 
--- changeset Vu:1748941140013-14
+-- changeset Vu:1748942002117-14
 CREATE TABLE product_options
 (
     option_id  INT NOT NULL,
     product_id INT NOT NULL
 );
 
--- changeset Vu:1748941140013-15
+-- changeset Vu:1748942002117-15
 CREATE TABLE product_variants
 (
     id                  INT AUTO_INCREMENT NOT NULL,
@@ -219,14 +219,14 @@ CREATE TABLE product_variants
     CONSTRAINT pk_product_variants PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-16
+-- changeset Vu:1748942002117-16
 CREATE TABLE product_variations
 (
     product_id   INT NOT NULL,
     variation_id INT NOT NULL
 );
 
--- changeset Vu:1748941140013-17
+-- changeset Vu:1748942002117-17
 CREATE TABLE products
 (
     id                  INT AUTO_INCREMENT NOT NULL,
@@ -254,7 +254,7 @@ CREATE TABLE products
     CONSTRAINT pk_products PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-18
+-- changeset Vu:1748942002117-18
 CREATE TABLE users
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -271,7 +271,7 @@ CREATE TABLE users
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-19
+-- changeset Vu:1748942002117-19
 CREATE TABLE variation_values
 (
     id           INT AUTO_INCREMENT NOT NULL,
@@ -284,7 +284,7 @@ CREATE TABLE variation_values
     CONSTRAINT pk_variation_values PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-20
+-- changeset Vu:1748942002117-20
 CREATE TABLE variations
 (
     id         INT AUTO_INCREMENT NOT NULL,
@@ -298,87 +298,87 @@ CREATE TABLE variations
     CONSTRAINT pk_variations PRIMARY KEY (id)
 );
 
--- changeset Vu:1748941140013-21
+-- changeset Vu:1748942002117-21
 ALTER TABLE order_product_variation_values
     ADD CONSTRAINT opv_variation_unique UNIQUE (order_product_variation_id, variation_value_id);
 
--- changeset Vu:1748941140013-22
+-- changeset Vu:1748942002117-22
 ALTER TABLE users
     ADD CONSTRAINT uc_users_email UNIQUE (email);
 
--- changeset Vu:1748941140013-23
+-- changeset Vu:1748942002117-23
 ALTER TABLE categories
     ADD CONSTRAINT FK_CATEGORIES_ON_PARENT FOREIGN KEY (parent_id) REFERENCES categories (id);
 
--- changeset Vu:1748941140013-24
+-- changeset Vu:1748942002117-24
 ALTER TABLE entity_files
     ADD CONSTRAINT FK_ENTITY_FILES_ON_FILE FOREIGN KEY (file_id) REFERENCES files (id);
 
--- changeset Vu:1748941140013-25
+-- changeset Vu:1748942002117-25
 ALTER TABLE option_values
     ADD CONSTRAINT FK_OPTION_VALUES_ON_OPTION FOREIGN KEY (option_id) REFERENCES options (id);
 
--- changeset Vu:1748941140013-26
+-- changeset Vu:1748942002117-26
 ALTER TABLE order_products
     ADD CONSTRAINT FK_ORDER_PRODUCTS_ON_ORDER FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-27
+-- changeset Vu:1748942002117-27
 ALTER TABLE order_products
     ADD CONSTRAINT FK_ORDER_PRODUCTS_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-28
+-- changeset Vu:1748942002117-28
 ALTER TABLE order_products
     ADD CONSTRAINT FK_ORDER_PRODUCTS_ON_PRODUCT_VARIANT FOREIGN KEY (product_variant_id) REFERENCES product_variants (id) ON DELETE SET NULL;
 
--- changeset Vu:1748941140013-29
+-- changeset Vu:1748942002117-29
 ALTER TABLE order_product_variations
     ADD CONSTRAINT FK_ORDER_PRODUCT_VARIATIONS_ON_ORDER_PRODUCT FOREIGN KEY (order_product_id) REFERENCES order_products (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-30
+-- changeset Vu:1748942002117-30
 ALTER TABLE order_product_variations
     ADD CONSTRAINT FK_ORDER_PRODUCT_VARIATIONS_ON_VARIATION FOREIGN KEY (variation_id) REFERENCES variations (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-31
+-- changeset Vu:1748942002117-31
 ALTER TABLE order_product_variation_values
     ADD CONSTRAINT FK_ORDER_PRODUCT_VARIATION_VALUES_ON_ORDER_PRODUCT_VARIATION FOREIGN KEY (order_product_variation_id) REFERENCES order_product_variations (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-32
+-- changeset Vu:1748942002117-32
 ALTER TABLE order_product_variation_values
     ADD CONSTRAINT FK_ORDER_PRODUCT_VARIATION_VALUES_ON_VARIATION_VALUE FOREIGN KEY (variation_value_id) REFERENCES variation_values (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-33
+-- changeset Vu:1748942002117-33
 ALTER TABLE products
     ADD CONSTRAINT FK_PRODUCTS_ON_BRAND FOREIGN KEY (brand_id) REFERENCES brands (id);
 
--- changeset Vu:1748941140013-34
+-- changeset Vu:1748942002117-34
 ALTER TABLE product_variants
     ADD CONSTRAINT FK_PRODUCT_VARIANTS_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES products (id);
 
--- changeset Vu:1748941140013-35
+-- changeset Vu:1748942002117-35
 ALTER TABLE variation_values
     ADD CONSTRAINT FK_VARIATION_VALUES_ON_VARIATION FOREIGN KEY (variation_id) REFERENCES variations (id) ON DELETE CASCADE;
 
--- changeset Vu:1748941140013-36
+-- changeset Vu:1748942002117-36
 ALTER TABLE product_categories
     ADD CONSTRAINT fk_procat_on_category FOREIGN KEY (category_id) REFERENCES categories (id);
 
--- changeset Vu:1748941140013-37
+-- changeset Vu:1748942002117-37
 ALTER TABLE product_categories
     ADD CONSTRAINT fk_procat_on_product FOREIGN KEY (product_id) REFERENCES products (id);
 
--- changeset Vu:1748941140013-38
+-- changeset Vu:1748942002117-38
 ALTER TABLE product_options
     ADD CONSTRAINT fk_proopt_on_option FOREIGN KEY (option_id) REFERENCES options (id);
 
--- changeset Vu:1748941140013-39
+-- changeset Vu:1748942002117-39
 ALTER TABLE product_options
     ADD CONSTRAINT fk_proopt_on_product FOREIGN KEY (product_id) REFERENCES products (id);
 
--- changeset Vu:1748941140013-40
+-- changeset Vu:1748942002117-40
 ALTER TABLE product_variations
     ADD CONSTRAINT fk_provar_on_product FOREIGN KEY (product_id) REFERENCES products (id);
 
--- changeset Vu:1748941140013-41
+-- changeset Vu:1748942002117-41
 ALTER TABLE product_variations
     ADD CONSTRAINT fk_provar_on_variation FOREIGN KEY (variation_id) REFERENCES variations (id);
 

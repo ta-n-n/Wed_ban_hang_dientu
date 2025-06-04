@@ -111,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
         var signedJWT = verifyToken(request.getRefreshToken(), REFRESH_SECRET);
 
         var jit = signedJWT.getJWTClaimsSet().getJWTID();
-        if (invalidatedTokenRepository.existsById(jit)) {
+        if (invalidatedTokenRepository.existsByToken(jit)) {
             throw new AppEx(ErrorCode.UNAUTHENTICATED);
         }
         var email = signedJWT.getJWTClaimsSet().getSubject();
