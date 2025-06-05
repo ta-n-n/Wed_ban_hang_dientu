@@ -2,9 +2,9 @@ package org.soft.elec.service.impl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 
 @Service
-@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    private final JavaMailSender mailSender;
-    private final UserRepository userRepository;
-    private final TemplateEngine templateEngine;
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @Async
     @Override

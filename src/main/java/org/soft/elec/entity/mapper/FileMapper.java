@@ -12,3 +12,4 @@ public interface FileMapper {
     FileResponse toResponse(File file);
     void updateEntity(FileRequest fileRequest, @MappingTarget File file);
 }
+

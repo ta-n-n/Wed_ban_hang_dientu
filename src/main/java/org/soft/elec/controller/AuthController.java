@@ -14,17 +14,20 @@ import org.soft.elec.entity.dto.response.AuthResponse;
 import org.soft.elec.entity.dto.response.IntrospectResponse;
 import org.soft.elec.service.AuthService;
 import org.soft.elec.service.PasswordResetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
-    private final PasswordResetService passwordResetService;
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private PasswordResetService passwordResetService;
 
     @PostMapping("/login")
     public ApiResponse<AuthResponse> auth(@Valid @RequestBody AuthRequest request) {

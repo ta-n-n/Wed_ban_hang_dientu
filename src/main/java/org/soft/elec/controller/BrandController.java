@@ -1,21 +1,21 @@
 package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.BrandRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.BrandResponse;
 import org.soft.elec.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/brands")
-@RequiredArgsConstructor
 public class BrandController {
 
-    private final BrandService brandService;
+    @Autowired
+    private BrandService brandService;
 
     @PostMapping
     public ApiResponse<BrandResponse> create(

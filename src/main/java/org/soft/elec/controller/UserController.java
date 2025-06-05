@@ -1,20 +1,20 @@
 package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.UserRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.UserResponse;
 import org.soft.elec.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ApiResponse<UserResponse> create(

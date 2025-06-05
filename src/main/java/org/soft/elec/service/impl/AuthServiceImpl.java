@@ -19,13 +19,12 @@ import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.InvalidatedTokenRepository;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.soft.elec.entity.models.InvalidatedToken;
-
-
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -37,20 +36,17 @@ import java.util.UUID;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
-    private final InvalidatedTokenRepository invalidatedTokenRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Value("${security.jwt.access-secret}")
     protected String ACCESS_SECRET;
 
     @Value("${security.jwt.refresh-secret}")
     protected String REFRESH_SECRET;
-
-    public AuthServiceImpl(
-            UserRepository userRepository, InvalidatedTokenRepository invalidatedTokenRepository) {
-        this.userRepository = userRepository;
-        this.invalidatedTokenRepository = invalidatedTokenRepository;
-    }
 
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException {

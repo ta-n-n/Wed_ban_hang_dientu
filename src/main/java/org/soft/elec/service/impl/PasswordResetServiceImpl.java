@@ -11,6 +11,7 @@ import org.soft.elec.repository.PasswordResetOtpRepository;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.EmailService;
 import org.soft.elec.service.PasswordResetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -21,14 +22,22 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class PasswordResetServiceImpl implements PasswordResetService {
 
-    private final UserRepository userRepository;
-    private final PasswordResetOtpRepository otpRepository;
-    private final EmailService emailService;
-    private final PasswordEncoder passwordEncoder;
-    private final TemplateEngine templateEngine;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordResetOtpRepository otpRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     private static final int OTP_EXPIRY_MINUTES = 5;
 

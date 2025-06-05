@@ -1,6 +1,5 @@
 package org.soft.elec.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.UserRequest;
 import org.soft.elec.entity.dto.response.UserResponse;
 import org.soft.elec.entity.enums.ErrorCode;
@@ -9,18 +8,20 @@ import org.soft.elec.entity.models.User;
 import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     private void checkUserExist(Integer id) {
         if (!userRepository.existsById(id)) {

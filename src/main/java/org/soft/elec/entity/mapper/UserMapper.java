@@ -12,3 +12,4 @@ public interface UserMapper {
     UserResponse toResponse(User user);
     void updateEntity(UserRequest userRequest, @MappingTarget User user);
 }
+

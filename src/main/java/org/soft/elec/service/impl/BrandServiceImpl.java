@@ -1,6 +1,5 @@
 package org.soft.elec.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.BrandRequest;
 import org.soft.elec.entity.dto.response.BrandResponse;
 import org.soft.elec.entity.enums.ErrorCode;
@@ -9,6 +8,7 @@ import org.soft.elec.entity.models.Brand;
 import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.BrandRepository;
 import org.soft.elec.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
 
-    private final BrandRepository brandRepository;
-    private final BrandMapper brandMapper;
+    @Autowired
+    private BrandRepository brandRepository;
+
+    @Autowired
+    private BrandMapper brandMapper;
 
     private void checkBrandExist(Integer id) {
         if (!brandRepository.existsById(id)) {

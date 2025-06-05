@@ -32,6 +32,39 @@ public enum ErrorCode {
     ENTITYFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "Entity file not found."),
     ENTITYFILE_ALREADY_EXISTS(HttpStatus.CONFLICT, "Entity already exists."),
 
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "Product not found."),
+    PRODUCT_ALREADY_EXISTS(HttpStatus.CONFLICT, "Product already exists."),
+
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "Category not found."),
+    CATEGORY_ALREADY_EXISTS(HttpStatus.CONFLICT, "Category already exists."),
+
+    OPTION_NOT_FOUND(HttpStatus.NOT_FOUND, "Option not found."),
+    OPTION_ALREADY_EXISTS(HttpStatus.CONFLICT, "Option already exists."),
+
+    OPTION_VALUE_NOT_FOUND(HttpStatus.NOT_FOUND, "Option value not found."),
+    OPTION_VALUE_ALREADY_EXISTS(HttpStatus.CONFLICT, "Option already exists."),
+
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "Order not found."),
+    ORDER_ALREADY_EXISTS(HttpStatus.CONFLICT, "Order already exists."),
+
+    ORDER_PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "Order product not found."),
+    ORDER_PRODUCT_ALREADY_EXISTS(HttpStatus.CONFLICT, "Order product already exists."),
+
+    ORDER_PRODUCT_VARIATION_NOT_FOUND(HttpStatus.NOT_FOUND, "Order product variation not found."),
+    ORDER_PRODUCT_VARIATION_ALREADY_EXISTS(HttpStatus.CONFLICT, "Order product variation already exists."),
+
+    ORDER_PRODUCT_VARIATION_VALUE_NOT_FOUND(HttpStatus.NOT_FOUND, "Order product variation value not found."),
+    ORDER_PRODUCT_VARIATION_VALUE_ALREADY_EXISTS(HttpStatus.CONFLICT, "Order product variation value already exists."),
+
+    PRODUCT_VARIANT_NOT_FOUND(HttpStatus.NOT_FOUND, "Product variant not found."),
+    PRODUCT_VARIANT_ALREADY_EXISTS(HttpStatus.CONFLICT, "Product variant already exists."),
+
+    VARIATION_NOT_FOUND(HttpStatus.NOT_FOUND, "Variation not found."),
+    VARIATION_ALREADY_EXISTS(HttpStatus.CONFLICT, "Variation not found."),
+
+    VARIATION_VALUE_NOT_FOUND(HttpStatus.NOT_FOUND, "Variation value not found."),
+    VARIATION_VALUE_ALREADY_EXISTS(HttpStatus.CONFLICT, "Variation value already exists."),
+
     CANNOT_DELETE_ADMIN(HttpStatus.CONFLICT, "Cannot delete admin"),
 
 

@@ -1,6 +1,5 @@
 package org.soft.elec.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.FileRequest;
 import org.soft.elec.entity.dto.response.FileResponse;
 import org.soft.elec.entity.enums.ErrorCode;
@@ -9,6 +8,7 @@ import org.soft.elec.entity.models.File;
 import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.FileRepository;
 import org.soft.elec.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    private final FileRepository fileRepository;
-    private final FileMapper fileMapper;
+    @Autowired
+    private FileRepository fileRepository;
+
+    @Autowired
+    private FileMapper fileMapper;
 
     private void checkFileExist(Integer id) {
         if (!fileRepository.existsById(id)) {

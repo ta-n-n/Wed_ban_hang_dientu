@@ -11,6 +11,7 @@ import org.soft.elec.exception.AppEx;
 import org.soft.elec.repository.EntityFileRepository;
 import org.soft.elec.repository.FileRepository;
 import org.soft.elec.service.EntityFileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class EntityFileServiceImpl implements EntityFileService {
 
-    private final EntityFileRepository entityFileRepository;
-    private final FileRepository fileRepository;
-    private final EntityFileMapper entityFileMapper;
+    @Autowired
+    private EntityFileRepository entityFileRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
+
+    @Autowired
+    private EntityFileMapper entityFileMapper;
 
     private void checkEntityFileExist(Integer id) {
         if (!entityFileRepository.existsById(id)) {

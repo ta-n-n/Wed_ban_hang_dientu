@@ -44,7 +44,5 @@ public class UserRequest {
     @NotBlank(message = "{role.notblank}")
     @Size(max = 50, message = "{role.maxsize}")
     private String role;
-
-    private String lastLogin;
 }
 
