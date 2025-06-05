@@ -8,7 +8,9 @@ import org.soft.elec.entity.models.Order;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
-    Order toEntity(OrderRequest orderRequest);
-    OrderResponse toResponse(Order order);
-    void updateEntity(OrderRequest orderRequest, @MappingTarget Order order);
+  Order toEntity(OrderRequest orderRequest);
+
+  OrderResponse toResponse(Order order);
+
+  void updateEntity(OrderRequest orderRequest, @MappingTarget Order order);
 }

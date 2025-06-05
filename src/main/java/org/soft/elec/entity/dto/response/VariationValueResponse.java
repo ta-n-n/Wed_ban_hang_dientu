@@ -11,9 +11,9 @@ import org.soft.elec.entity.models.Variation;
 @AllArgsConstructor
 @Builder
 public class VariationValueResponse {
-    private Integer id;
-    private String label;
-    private Variation variation;
-    private String value;
-    private Integer position;
+  private Integer id;
+  private String label;
+  private Variation variation;
+  private String value;
+  private Integer position;
 }

@@ -4,5 +4,5 @@ import org.soft.elec.entity.models.OptionValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface OptionValueRepository extends JpaRepository<OptionValue, Integer>, JpaSpecificationExecutor<OptionValue> {
-}
+public interface OptionValueRepository
+    extends JpaRepository<OptionValue, Integer>, JpaSpecificationExecutor<OptionValue> {}

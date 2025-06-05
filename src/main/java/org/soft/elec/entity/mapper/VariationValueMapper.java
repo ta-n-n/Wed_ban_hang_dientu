@@ -6,9 +6,12 @@ import org.soft.elec.entity.dto.request.VariationValueRequest;
 import org.soft.elec.entity.dto.response.VariationValueResponse;
 import org.soft.elec.entity.models.VariationValue;
 
-@Mapper(componentModel = "sping")
+@Mapper(componentModel = "spring")
 public interface VariationValueMapper {
-    VariationValue toEntity(VariationValueRequest variationValueRequest);
-    VariationValueResponse toResponse(VariationValue variationValue);
-    void updateEntity(VariationValueRequest variationValueRequest, @MappingTarget VariationValue variationValue);
+  VariationValue toEntity(VariationValueRequest variationValueRequest);
+
+  VariationValueResponse toResponse(VariationValue variationValue);
+
+  void updateEntity(
+      VariationValueRequest variationValueRequest, @MappingTarget VariationValue variationValue);
 }

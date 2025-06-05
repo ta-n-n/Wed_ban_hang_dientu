@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class VariationRequest {
-    private String name;
-    private String type;
-    private Boolean isGlobal;
-    private Integer position;
+  private String name;
+  private String type;
+  private Boolean isGlobal;
+  private Integer position;
 }

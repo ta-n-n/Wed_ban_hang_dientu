@@ -8,8 +8,9 @@ import org.soft.elec.entity.models.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    User toEntity(UserRequest userRequest);
-    UserResponse toResponse(User user);
-    void updateEntity(UserRequest userRequest, @MappingTarget User user);
-}
+  User toEntity(UserRequest userRequest);
 
+  UserResponse toResponse(User user);
+
+  void updateEntity(UserRequest userRequest, @MappingTarget User user);
+}

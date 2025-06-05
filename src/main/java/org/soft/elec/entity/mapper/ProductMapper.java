@@ -8,7 +8,9 @@ import org.soft.elec.entity.models.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-    Product toEntity(ProductRequest productRequest);
-    ProductResponse toResponse(Product product);
-    void updateEntity(ProductRequest productRequest, @MappingTarget Product product);
+  Product toEntity(ProductRequest productRequest);
+
+  ProductResponse toResponse(Product product);
+
+  void updateEntity(ProductRequest productRequest, @MappingTarget Product product);
 }

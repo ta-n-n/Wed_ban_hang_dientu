@@ -1,12 +1,11 @@
 package org.soft.elec.entity.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -14,12 +13,12 @@ import java.math.BigDecimal;
 @Builder
 public class OptionValueRequest {
 
-    @NotNull(message = "{optionvalue.optionid.notnull}")
-    private Integer optionId;
+  @NotNull(message = "{optionvalue.optionid.notnull}")
+  private Integer optionId;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    private String priceType;
+  private String priceType;
 
-    private Integer position;
+  private Integer position;
 }

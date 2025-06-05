@@ -11,9 +11,9 @@ import org.soft.elec.entity.models.File;
 @AllArgsConstructor
 @Builder
 public class EntityFileResponse {
-    private Integer id;
-    private File file;
-    private Integer entityId;
-    private String entityType;
-    private String zone;
+  private Integer id;
+  private File file;
+  private Integer entityId;
+  private String entityType;
+  private String zone;
 }

@@ -1,12 +1,11 @@
 package org.soft.elec.entity.models;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "option_values")
@@ -14,28 +13,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OptionValue {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "option_id")
-    private Option option;
+  @ManyToOne
+  @JoinColumn(name = "option_id")
+  private Option option;
 
-    @Column(name = "price", precision = 18, scale = 4)
-    private BigDecimal price;
+  @Column(name = "price", precision = 18, scale = 4)
+  private BigDecimal price;
 
-    @Column(name = "price_type")
-    private String priceType;
+  @Column(name = "price_type")
+  private String priceType;
 
-    @Column(name = "position")
-    private Integer position;
+  @Column(name = "position")
+  private Integer position;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at", updatable = false)
+  private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private LocalDateTime updatedAt;
 }

@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OptionRequest {
 
-    @NotBlank(message = "{option.type.notblank}")
-    private String type;
+  @NotBlank(message = "{option.type.notblank}")
+  private String type;
 
-    @NotNull(message = "{option.isrequired.notnull}")
-    private Boolean isRequired;
+  @NotNull(message = "{option.isrequired.notnull}")
+  private Boolean isRequired;
 
-    @NotNull(message = "{option.isglobal.notnull}")
-    private Boolean isGlobal;
+  @NotNull(message = "{option.isglobal.notnull}")
+  private Boolean isGlobal;
 
-    private Integer position;
+  private Integer position;
 }

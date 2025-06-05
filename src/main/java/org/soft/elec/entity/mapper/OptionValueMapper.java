@@ -8,7 +8,9 @@ import org.soft.elec.entity.models.OptionValue;
 
 @Mapper(componentModel = "spring")
 public interface OptionValueMapper {
-    OptionValue toEntity(OptionValueRequest optionValueRequest);
-    OptionValueResponse toResponse(OptionValue optionValue);
-    void updateEntity(OptionValueRequest optionValueRequest, @MappingTarget OptionValue optionValue);
+  OptionValue toEntity(OptionValueRequest optionValueRequest);
+
+  OptionValueResponse toResponse(OptionValue optionValue);
+
+  void updateEntity(OptionValueRequest optionValueRequest, @MappingTarget OptionValue optionValue);
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderProductVariationValueRequest {
-    private Integer orderProductVariationId;
-    private Integer variationValueId;
+  private Integer orderProductVariationId;
+  private Integer variationValueId;
 }

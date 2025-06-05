@@ -12,9 +12,9 @@ import org.soft.elec.entity.models.Variation;
 @AllArgsConstructor
 @Builder
 public class OrderProductVariationResponse {
-    private Integer id;
-    private OrderProduct orderProduct;
-    private Variation variation;
-    private String type;
-    private String value;
+  private Integer id;
+  private OrderProduct orderProduct;
+  private Variation variation;
+  private String type;
+  private String value;
 }

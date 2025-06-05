@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BrandRequest {
 
-    @NotBlank(message = "{brandname.notblank}")
-    private String name;
+  @NotBlank(message = "{brandname.notblank}")
+  private String name;
 
-    @NotNull(message = "{brand.active}")
-    private Boolean isActive; //0:Disable　1: Enable
+  @NotNull(message = "{brand.active}")
+  private Boolean isActive; // 0:Disable　1: Enable
 
-    private String fileLogo;
+  private String fileLogo;
 }

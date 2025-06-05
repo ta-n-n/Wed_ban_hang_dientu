@@ -8,7 +8,9 @@ import org.soft.elec.entity.models.Option;
 
 @Mapper(componentModel = "spring")
 public interface OptionMapper {
-    Option toEntity(OptionRequest optionRequest);
-    OptionResponse toResponse(Option option);
-    void updateEntity(OptionRequest optionRequest, @MappingTarget Option option);
+  Option toEntity(OptionRequest optionRequest);
+
+  OptionResponse toResponse(Option option);
+
+  void updateEntity(OptionRequest optionRequest, @MappingTarget Option option);
 }

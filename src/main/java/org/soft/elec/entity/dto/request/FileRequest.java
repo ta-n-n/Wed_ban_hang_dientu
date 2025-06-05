@@ -12,24 +12,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class FileRequest {
-    @NotNull(message = "{file.userid.notnull}")
-    private Integer userId;
+  @NotNull(message = "{file.userid.notnull}")
+  private Integer userId;
 
-    @NotBlank(message = "{file.filename.notblank}")
-    private String filename;
+  @NotBlank(message = "{file.filename.notblank}")
+  private String filename;
 
-    @NotBlank(message = "{file.disk.notblank}")
-    private String disk;
+  @NotBlank(message = "{file.disk.notblank}")
+  private String disk;
 
-    @NotBlank(message = "{file.path.notblank}")
-    private String path;
+  @NotBlank(message = "{file.path.notblank}")
+  private String path;
 
-    @NotBlank(message = "{file.extension.notblank}")
-    private String extension;
+  @NotBlank(message = "{file.extension.notblank}")
+  private String extension;
 
-    @NotBlank(message = "{file.mime.notblank}")
-    private String mime;
+  @NotBlank(message = "{file.mime.notblank}")
+  private String mime;
 
-    @NotBlank(message = "{file.size.notblank}")
-    private String size;
+  @NotBlank(message = "{file.size.notblank}")
+  private String size;
 }

@@ -8,7 +8,10 @@ import org.soft.elec.entity.models.ProductVariant;
 
 @Mapper(componentModel = "spring")
 public interface ProductVariantMapper {
-    ProductVariant toEntity(ProductVariantRequest productVariantRequest);
-    ProductVariantResponse toResponse(ProductVariant productVariant);
-    void updateEntity(ProductVariantRequest productVariantRequest, @MappingTarget ProductVariant productVariant);
+  ProductVariant toEntity(ProductVariantRequest productVariantRequest);
+
+  ProductVariantResponse toResponse(ProductVariant productVariant);
+
+  void updateEntity(
+      ProductVariantRequest productVariantRequest, @MappingTarget ProductVariant productVariant);
 }

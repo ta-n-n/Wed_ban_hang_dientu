@@ -1,12 +1,11 @@
 package org.soft.elec.entity.dto.response;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.soft.elec.entity.models.Product;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,13 +13,13 @@ import java.util.List;
 @Builder
 public class BrandResponse {
 
-    private Integer id;
+  private Integer id;
 
-    private String name;
+  private String name;
 
-    private Boolean isActive; //0:Disable　1: Enable
+  private Boolean isActive; // 0:Disable　1: Enable
 
-    private String fileLogo;
+  private String fileLogo;
 
-    private List<Product> products;
+  private List<Product> products;
 }

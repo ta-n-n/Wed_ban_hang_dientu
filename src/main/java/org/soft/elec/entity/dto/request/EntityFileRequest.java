@@ -13,16 +13,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EntityFileRequest {
 
-    @NotNull(message = "{entityfile.fileid.notnull}")
-    private Integer fileId;
+  @NotNull(message = "{entityfile.fileid.notnull}")
+  private Integer fileId;
 
-    @NotNull(message = "{entityfile.entityid.notnull}")
-    private Integer entityId;
+  @NotNull(message = "{entityfile.entityid.notnull}")
+  private Integer entityId;
 
-    @NotBlank(message = "{entityfile.entitytype.notblank}")
-    private String entityType;
+  @NotBlank(message = "{entityfile.entitytype.notblank}")
+  private String entityType;
 
-    @NotBlank(message = "{entityfile.zone.notblank}")
-    private String zone;
-
+  @NotBlank(message = "{entityfile.zone.notblank}")
+  private String zone;
 }

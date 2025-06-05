@@ -8,7 +8,9 @@ import org.soft.elec.entity.models.Variation;
 
 @Mapper(componentModel = "spring")
 public interface VariationMapper {
-    Variation toEntity(VariationRequest variationRequest);
-    VariationResponse toResponse(Variation variation);
-    void updateEntity(VariationRequest variationRequest, @MappingTarget Variation variation);
+  Variation toEntity(VariationRequest variationRequest);
+
+  VariationResponse toResponse(Variation variation);
+
+  void updateEntity(VariationRequest variationRequest, @MappingTarget Variation variation);
 }
