@@ -23,7 +23,7 @@ public class OrderProductVariationServiceImpl implements OrderProductVariationSe
 
   private void checkOrderProductVariationExist(Integer id) {
     if (!orderProductVariationRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.ORDER_PRODUCT_VARIATION_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.ORDER_PRODUCT_VARIATION_NOT_FOUND);
     }
   }
 

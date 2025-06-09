@@ -23,7 +23,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
   private void checkProductVariantExist(Integer id) {
     if (!productVariantRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.PRODUCT_VARIANT_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.PRODUCT_VARIANT_NOT_FOUND);
     }
   }
 

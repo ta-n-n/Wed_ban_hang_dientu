@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Product;
-import org.soft.elec.entity.models.VariationValue;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +16,6 @@ public class VariationResponse {
   private String type;
   private Boolean isGlobal;
   private Integer position;
-  private List<Product> products;
-  private List<VariationValue> variationValues;
+  private List<String> products;
+  private List<String> variationValues;
 }

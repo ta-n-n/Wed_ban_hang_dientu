@@ -17,5 +17,5 @@ public class OptionResponse {
   private Boolean isRequired;
   private Boolean isGlobal;
   private Integer position;
-  private List<OptionValue> values;
+  private List<String> values;
 }

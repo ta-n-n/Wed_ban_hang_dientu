@@ -23,7 +23,7 @@ public class VariationServiceImpl implements VariationService {
 
   private void checkVariationExist(Integer id) {
     if (!variationRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.VARIATION_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.VARIATION_NOT_FOUND);
     }
   }
 

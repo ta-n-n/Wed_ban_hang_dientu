@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Category;
-import org.soft.elec.entity.models.Product;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +12,9 @@ import org.soft.elec.entity.models.Product;
 @Builder
 public class CategoryResponse {
   private Integer id;
-  private Category parent;
-  private List<Category> children;
+  private String parent;
+  private List<String> children;
   private String name;
   private Integer position;
   private Boolean isActive;
-  private List<Product> products;
 }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.*;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import org.soft.elec.entity.models.*;
 public class ProductResponse {
   private Integer id;
   private String thumbnail;
-  private Brand brand;
+  private String brand; // Sử dụng String thay vì BrandResponse
   private String name;
   private String description;
   private String shortDescription;
@@ -34,8 +33,8 @@ public class ProductResponse {
   private Boolean isActive;
   private LocalDateTime newFrom;
   private LocalDateTime newTo;
-  private List<Category> categories;
-  private List<Variation> variations;
-  private List<Option> options;
-  private List<ProductVariant> variants;
+  private List<String> categories; // Sử dụng List<String> thay vì List<CategoryResponse>
+  private List<String> variations; // Sử dụng List<String> thay vì List<VariationResponse>
+  private List<String> options; // Sử dụng List<String> thay vì List<OptionResponse>
+  private List<String> variants; // Sử dụng List<String> thay vì List<ProductVariantResponse>
 }

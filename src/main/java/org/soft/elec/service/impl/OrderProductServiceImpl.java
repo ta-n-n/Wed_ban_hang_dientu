@@ -23,7 +23,7 @@ public class OrderProductServiceImpl implements OrderProductService {
 
   private void checkOrderProductExist(Integer id) {
     if (!orderProductRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.ORDER_PRODUCT_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.ORDER_PRODUCT_NOT_FOUND);
     }
   }
 

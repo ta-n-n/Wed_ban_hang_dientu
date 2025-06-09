@@ -23,7 +23,7 @@ public class BrandServiceImpl implements BrandService {
 
   private void checkBrandExist(Integer id) {
     if (!brandRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.BRAND_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.BRAND_NOT_FOUND);
     }
   }
 

@@ -27,7 +27,7 @@ public class EntityFileServiceImpl implements EntityFileService {
 
   private void checkEntityFileExist(Integer id) {
     if (!entityFileRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.ENTITYFILE_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.ENTITYFILE_NOT_FOUND);
     }
   }
 

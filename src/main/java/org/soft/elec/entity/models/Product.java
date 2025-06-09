@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class Product {
   private String thumbnail; // Hình ảnh thu nhỏ
 
   @ManyToOne
+  @JsonBackReference
   @JoinColumn(name = "brand_id")
   private Brand brand; // Thương hiệu
 

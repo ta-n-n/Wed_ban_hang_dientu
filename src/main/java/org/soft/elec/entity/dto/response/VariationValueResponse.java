@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Variation;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +12,8 @@ import org.soft.elec.entity.models.Variation;
 public class VariationValueResponse {
   private Integer id;
   private String label;
-  private Variation variation;
+  private Integer variationId;
+  private String variationName;
   private String value;
   private Integer position;
 }

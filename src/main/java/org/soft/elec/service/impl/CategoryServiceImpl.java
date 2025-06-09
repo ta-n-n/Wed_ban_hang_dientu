@@ -23,14 +23,23 @@ public class CategoryServiceImpl implements CategoryService {
 
   private void checkCategoryExist(Integer id) {
     if (!categoryRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.CATEGORY_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.CATEGORY_NOT_FOUND);
     }
   }
 
   @Override
   @Transactional
   public CategoryResponse createCategory(CategoryRequest request) {
+    Category parentCategory = null;
+    if (request.getParentId() != null) {
+      parentCategory =
+          categoryRepository
+              .findById(request.getParentId())
+              .orElseThrow(() -> new AppEx(ErrorCode.CATEGORY_NOT_FOUND));
+    }
     Category category = categoryMapper.toEntity(request);
+    category.setParent(parentCategory);
+
     Category saved = categoryRepository.save(category);
     return categoryMapper.toResponse(saved);
   }

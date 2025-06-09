@@ -1,5 +1,8 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,9 +22,11 @@ public class Category {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id")
+  @JsonBackReference
   private Category parent;
 
   @OneToMany(mappedBy = "parent")
+  @JsonManagedReference
   private List<Category> children;
 
   @Column(name = "name", nullable = false)

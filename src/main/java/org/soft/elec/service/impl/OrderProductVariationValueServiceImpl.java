@@ -23,7 +23,7 @@ public class OrderProductVariationValueServiceImpl implements OrderProductVariat
 
   private void checkOrderProductVariationValueExist(Integer id) {
     if (!orderProductVariationValueRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.ORDER_PRODUCT_VARIATION_VALUE_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.ORDER_PRODUCT_VARIATION_VALUE_NOT_FOUND);
     }
   }
 

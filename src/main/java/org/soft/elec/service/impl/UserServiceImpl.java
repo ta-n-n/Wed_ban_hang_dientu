@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
   private void checkUserExist(Integer id) {
     if (!userRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.USER_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.USER_NOT_FOUND);
     }
   }
 

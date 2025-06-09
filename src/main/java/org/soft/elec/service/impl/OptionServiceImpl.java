@@ -23,7 +23,7 @@ public class OptionServiceImpl implements OptionService {
 
   private void checkOptionExist(Integer id) {
     if (!optionRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.OPTION_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.OPTION_NOT_FOUND);
     }
   }
 

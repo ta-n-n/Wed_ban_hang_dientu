@@ -23,7 +23,7 @@ public class FileServiceImpl implements FileService {
 
   private void checkFileExist(Integer id) {
     if (!fileRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.FILE_ALREADY_EXISTS);
+      throw new AppEx(ErrorCode.FILE_NOT_FOUND);
     }
   }
 
