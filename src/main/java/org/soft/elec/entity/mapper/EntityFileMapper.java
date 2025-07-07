@@ -11,8 +11,8 @@ import org.soft.elec.entity.models.EntityFile;
 public interface EntityFileMapper {
   EntityFile toEntity(EntityFileRequest entityFileRequest);
 
-  @Mapping(target = "fileId", source = "file.id")
-  @Mapping(target = "fileName", source = "file.filename")
+//  @Mapping(target = "fileId", source = "file.id")
+//  @Mapping(target = "fileName", source = "file.filename")
   EntityFileResponse toResponse(EntityFile entityFile);
 
   void updateEntity(EntityFileRequest entityFileRequest, @MappingTarget EntityFile entityFile);
