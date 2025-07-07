@@ -15,4 +15,3 @@ public class VariationValueRequest {
   private String value;
   private Integer position;
 }
-

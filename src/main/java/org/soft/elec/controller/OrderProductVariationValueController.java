@@ -2,59 +2,55 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.OrderProductVariationValueRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.OrderProductVariationValueResponse;
 import org.soft.elec.service.OrderProductVariationValueService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/order-product-variation-values")
+@RequiredArgsConstructor
 public class OrderProductVariationValueController {
 
-  @Autowired private OrderProductVariationValueService orderProductVariationValueService;
+  private final OrderProductVariationValueService orderProductVariationValueService;
 
   @PostMapping
-  public ApiResponse<OrderProductVariationValueResponse> create(
-      @RequestBody @Valid OrderProductVariationValueRequest request) {
-    return ApiResponse.<OrderProductVariationValueResponse>builder()
-        .success(true)
-        .data(orderProductVariationValueService.createOrderProductVariationValue(request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationValueResponse>> create(
+      @Valid @RequestBody OrderProductVariationValueRequest request) {
+    OrderProductVariationValueResponse created =
+        orderProductVariationValueService.createOrderProductVariationValue(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<OrderProductVariationValueResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid OrderProductVariationValueRequest request) {
-    return ApiResponse.<OrderProductVariationValueResponse>builder()
-        .success(true)
-        .data(orderProductVariationValueService.updateOrderProductVariationValue(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationValueResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody OrderProductVariationValueRequest request) {
+    OrderProductVariationValueResponse updated =
+        orderProductVariationValueService.updateOrderProductVariationValue(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     orderProductVariationValueService.deleteOrderProductVariationValue(id);
-    return ApiResponse.<String>builder()
-        .success(true)
-        .data("Order Product Variation Value has been deleted")
-        .build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<OrderProductVariationValueResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<OrderProductVariationValueResponse>builder()
-        .success(true)
-        .data(orderProductVariationValueService.getOrderProductVariationValueById(id))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationValueResponse>> getById(
+      @PathVariable Integer id) {
+    OrderProductVariationValueResponse result =
+        orderProductVariationValueService.getOrderProductVariationValueById(id);
+    return ResponseEntity.ok(ApiResponse.success(result));
   }
 
   @GetMapping
-  public ApiResponse<List<OrderProductVariationValueResponse>> getAll() {
-    return ApiResponse.<List<OrderProductVariationValueResponse>>builder()
-        .success(true)
-        .data(orderProductVariationValueService.getAllOrderProductVariationValues())
-        .build();
+  public ResponseEntity<ApiResponse<List<OrderProductVariationValueResponse>>> getAll() {
+    List<OrderProductVariationValueResponse> list =
+        orderProductVariationValueService.getAllOrderProductVariationValues();
+    return ResponseEntity.ok(ApiResponse.success(list));
   }
 }

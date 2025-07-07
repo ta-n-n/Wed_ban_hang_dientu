@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Order;
-import org.soft.elec.entity.models.Product;
-import org.soft.elec.entity.models.ProductVariant;
 
 @Data
 @NoArgsConstructor
@@ -15,10 +12,10 @@ import org.soft.elec.entity.models.ProductVariant;
 @Builder
 public class OrderProductResponse {
   private Integer id;
-  private Order order;
-  private Product product;
-  private ProductVariant productVariant;
+  private Integer order;
+  private String product;
+  private String productVariant;
   private BigDecimal unitPrice;
-  private Integer qty = 1;
+  private Integer qty;
   private BigDecimal lineTotal;
 }

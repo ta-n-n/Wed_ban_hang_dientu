@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class ProductVariant {
 
   @ManyToOne
   @JoinColumn(name = "product_id")
+  @JsonBackReference
   private Product product;
 
   @Column(name = "price", precision = 18, scale = 4)

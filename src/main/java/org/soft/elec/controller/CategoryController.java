@@ -2,55 +2,50 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.CategoryRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.CategoryResponse;
 import org.soft.elec.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
-  @Autowired private CategoryService categoryService;
+  private final CategoryService categoryService;
 
   @PostMapping
-  public ApiResponse<CategoryResponse> create(@RequestBody @Valid CategoryRequest request) {
-    return ApiResponse.<CategoryResponse>builder()
-        .success(true)
-        .data(categoryService.createCategory(request))
-        .build();
+  public ResponseEntity<ApiResponse<CategoryResponse>> create(
+      @Valid @RequestBody CategoryRequest request) {
+    CategoryResponse created = categoryService.createCategory(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<CategoryResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid CategoryRequest request) {
-    return ApiResponse.<CategoryResponse>builder()
-        .success(true)
-        .data(categoryService.updateCategory(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<CategoryResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody CategoryRequest request) {
+    CategoryResponse updated = categoryService.updateCategory(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     categoryService.deleteCategory(id);
-    return ApiResponse.<String>builder().success(true).data("Category has been deleted").build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<CategoryResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<CategoryResponse>builder()
-        .success(true)
-        .data(categoryService.getCategoryById(id))
-        .build();
+  public ResponseEntity<ApiResponse<CategoryResponse>> getById(@PathVariable Integer id) {
+    CategoryResponse category = categoryService.getCategoryById(id);
+    return ResponseEntity.ok(ApiResponse.success(category));
   }
 
   @GetMapping
-  public ApiResponse<List<CategoryResponse>> getAll() {
-    return ApiResponse.<List<CategoryResponse>>builder()
-        .success(true)
-        .data(categoryService.getAllCategories())
-        .build();
+  public ResponseEntity<ApiResponse<List<CategoryResponse>>> getAll() {
+    List<CategoryResponse> categories = categoryService.getAllCategories();
+    return ResponseEntity.ok(ApiResponse.success(categories));
   }
 }

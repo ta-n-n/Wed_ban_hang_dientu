@@ -2,7 +2,9 @@ package org.soft.elec.service;
 
 import java.util.List;
 import org.soft.elec.entity.dto.request.FileRequest;
+import org.soft.elec.entity.dto.request.search.FileSearchRequest;
 import org.soft.elec.entity.dto.response.FileResponse;
+import org.springframework.data.domain.Page;
 
 public interface FileService {
   FileResponse createFile(FileRequest request);
@@ -14,4 +16,6 @@ public interface FileService {
   FileResponse getFileById(Integer id);
 
   List<FileResponse> getAllFiles();
+
+  Page<FileResponse> searchFiles(FileSearchRequest request);
 }

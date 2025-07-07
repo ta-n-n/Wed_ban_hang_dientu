@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.ProductVariant;
 
 @Data
 @NoArgsConstructor
@@ -67,5 +66,5 @@ public class ProductRequest {
 
   private List<Integer> optionIds; // Danh sách ID các tùy chọn cho sản phẩm
 
-  private List<ProductVariant> variantIds; // (size, color, v.v.)
+  private List<Integer> variantIds; // (size, color, v.v.)
 }

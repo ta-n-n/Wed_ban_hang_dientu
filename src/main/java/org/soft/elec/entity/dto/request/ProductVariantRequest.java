@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductVariantRequest {
   private String name;
+  private Integer productId;
   private BigDecimal price;
   private BigDecimal specialPrice;
   private Integer specialPriceType;

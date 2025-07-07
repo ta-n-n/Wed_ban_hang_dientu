@@ -1,17 +1,19 @@
 package org.soft.elec.configuration;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.soft.elec.entity.enums.Role;
+import org.soft.elec.constant.enums.Role;
 import org.soft.elec.entity.models.User;
 import org.soft.elec.repository.UserRepository;
+import org.soft.elec.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
 @Slf4j
+@Configuration
+@RequiredArgsConstructor
 public class ApplicationInitConfig {
 
   @Value("${app.admin.firstName}")
@@ -32,29 +34,30 @@ public class ApplicationInitConfig {
   @Value("${app.admin.role}")
   private String adminRoleName;
 
-  private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
-
-  public ApplicationInitConfig(PasswordEncoder passwordEncoder, UserRepository userRepository) {
-    this.passwordEncoder = passwordEncoder;
-    this.userRepository = userRepository;
-  }
+  private final PasswordUtil passwordUtil;
 
   @Bean
-  ApplicationRunner applicationRunner() {
+  public ApplicationRunner applicationRunner() {
     return args -> {
-      Role adminRole = Role.valueOf(adminRoleName);
       if (userRepository.findByEmail(adminEmail).isEmpty()) {
-        User admin = new User();
-        admin.setFirstName(adminFirstName);
-        admin.setLastName(adminLastName);
-        admin.setEmail(adminEmail);
-        admin.setPhone(adminPhone);
-        admin.setPassword(passwordEncoder.encode(adminPassword));
-        admin.setEnabled(true);
-        admin.setRole(adminRole);
+        Role adminRole = Role.valueOf(adminRoleName.toUpperCase());
+        User admin =
+            User.builder()
+                .firstName(adminFirstName)
+                .lastName(adminLastName)
+                .email(adminEmail)
+                .phone(adminPhone)
+                .password(passwordUtil.encode(adminPassword))
+                .enabled(true)
+                .role(adminRole)
+                .build();
         userRepository.save(admin);
-        log.warn("Default Admin account created. Please change the default password.");
+        log.warn(
+            "Default Admin account created: [{}] - You should change the default password immediately!",
+            adminEmail);
+      } else {
+        log.info("Admin account already exists: [{}]", adminEmail);
       }
     };
   }

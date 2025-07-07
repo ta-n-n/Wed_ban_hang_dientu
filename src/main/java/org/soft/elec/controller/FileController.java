@@ -2,55 +2,49 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.FileRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.FileResponse;
 import org.soft.elec.service.FileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/files")
+@RequiredArgsConstructor
 public class FileController {
 
-  @Autowired private FileService fileService;
+  private final FileService fileService;
 
   @PostMapping
-  public ApiResponse<FileResponse> create(@RequestBody @Valid FileRequest request) {
-    return ApiResponse.<FileResponse>builder()
-        .success(true)
-        .data(fileService.createFile(request))
-        .build();
+  public ResponseEntity<ApiResponse<FileResponse>> create(@Valid @RequestBody FileRequest request) {
+    FileResponse created = fileService.createFile(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<FileResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid FileRequest request) {
-    return ApiResponse.<FileResponse>builder()
-        .success(true)
-        .data(fileService.updateFile(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<FileResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody FileRequest request) {
+    FileResponse updated = fileService.updateFile(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     fileService.deleteFile(id);
-    return ApiResponse.<String>builder().success(true).data("File has been deleted").build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<FileResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<FileResponse>builder()
-        .success(true)
-        .data(fileService.getFileById(id))
-        .build();
+  public ResponseEntity<ApiResponse<FileResponse>> getById(@PathVariable Integer id) {
+    FileResponse file = fileService.getFileById(id);
+    return ResponseEntity.ok(ApiResponse.success(file));
   }
 
   @GetMapping
-  public ApiResponse<List<FileResponse>> getAll() {
-    return ApiResponse.<List<FileResponse>>builder()
-        .success(true)
-        .data(fileService.getAllFiles())
-        .build();
+  public ResponseEntity<ApiResponse<List<FileResponse>>> getAll() {
+    List<FileResponse> files = fileService.getAllFiles();
+    return ResponseEntity.ok(ApiResponse.success(files));
   }
 }

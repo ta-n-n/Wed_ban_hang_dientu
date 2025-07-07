@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -22,16 +24,19 @@ public class OrderProduct {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "order_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonBackReference
   private Order order;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "product_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonBackReference
   private Product product;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "product_variant_id")
   @OnDelete(action = OnDeleteAction.SET_NULL)
+  @JsonBackReference
   private ProductVariant productVariant;
 
   @Column(name = "unit_price", precision = 18, scale = 4, nullable = false)

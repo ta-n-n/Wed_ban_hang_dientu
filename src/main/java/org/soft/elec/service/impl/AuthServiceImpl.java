@@ -1,175 +1,109 @@
 package org.soft.elec.service.impl;
 
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.SignedJWT;
 
 import java.text.ParseException;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.soft.elec.entity.dto.request.AuthRequest;
-import org.soft.elec.entity.dto.request.IntrospectRequest;
-import org.soft.elec.entity.dto.request.LogoutRequest;
-import org.soft.elec.entity.dto.request.RefreshRequest;
-import org.soft.elec.entity.dto.response.AuthResponse;
-import org.soft.elec.entity.dto.response.IntrospectResponse;
-import org.soft.elec.entity.enums.ErrorCode;
-import org.soft.elec.entity.enums.Role;
+import org.soft.elec.entity.dto.request.*;
+import org.soft.elec.entity.dto.response.*;
 import org.soft.elec.entity.models.InvalidatedToken;
-import org.soft.elec.entity.models.User;
-import org.soft.elec.exception.AppEx;
+import org.soft.elec.exception.AppException;
+import org.soft.elec.exception.ErrorCode;
 import org.soft.elec.repository.InvalidatedTokenRepository;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.soft.elec.utils.JwtTokenUtil;
+import org.soft.elec.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-  @Autowired private UserRepository userRepository;
-
-  @Autowired private InvalidatedTokenRepository invalidatedTokenRepository;
+  private final UserRepository userRepository;
+  private final InvalidatedTokenRepository invalidatedTokenRepository;
+  private final PasswordUtil passwordUtil;
+  private final JwtTokenUtil jwtTokenUtil;
 
   @Value("${security.jwt.access-secret}")
-  protected String ACCESS_SECRET;
+  private String accessSecret;
 
   @Value("${security.jwt.refresh-secret}")
-  protected String REFRESH_SECRET;
-
-  @Override
-  public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException {
-    var token = request.getAccessToken();
-    verifyToken(token, ACCESS_SECRET);
-    return IntrospectResponse.builder().valid(true).build();
-  }
+  private String refreshSecret;
 
   @Override
   public AuthResponse authenticate(AuthRequest request) {
     var user =
         userRepository
             .findByEmail(request.getEmail())
-            .orElseThrow(() -> new AppEx(ErrorCode.INVALID_LOGIN));
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-      throw new AppEx(ErrorCode.INVALID_LOGIN);
+            .orElseThrow(() -> new AppException(ErrorCode.INVALID_LOGIN));
+    if (!passwordUtil.matches(request.getPassword(), user.getPassword())) {
+      throw new AppException(ErrorCode.INVALID_LOGIN);
     }
     if (!user.isEnabled()) {
-      throw new AppEx(ErrorCode.NOT_ACTIVE);
+      throw new AppException(ErrorCode.NOT_ACTIVE);
     }
-    var accessToken = generateToken(user, 360, ACCESS_SECRET, "access"); // token sống 6 tiếng
-    var refreshToken =
-        generateToken(user, 7 * 24 * 60, REFRESH_SECRET, "refresh"); // token sống 7 ngày
+    var accessToken = jwtTokenUtil.generateToken(user, 360, accessSecret, "access");
+    var refreshToken = jwtTokenUtil.generateToken(user, 7 * 24 * 60, refreshSecret, "refresh");
+
     return AuthResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+  }
+
+  @Override
+  public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException {
+    jwtTokenUtil.verifyToken(request.getAccessToken(), accessSecret);
+    return IntrospectResponse.builder().valid(true).build();
   }
 
   @Override
   public void logout(LogoutRequest request) throws ParseException, JOSEException {
     try {
-      if (request.getRefreshToken() != null) {
-        var refreshJWT = verifyToken(request.getRefreshToken(), REFRESH_SECRET);
-        String refreshJit = refreshJWT.getJWTClaimsSet().getJWTID();
-        Date refreshExp = refreshJWT.getJWTClaimsSet().getExpirationTime();
-        invalidatedTokenRepository.save(
-            InvalidatedToken.builder()
-                .token(refreshJit)
-                .expiresAt(refreshExp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-                .build());
-      }
       if (request.getAccessToken() != null) {
-        var accessJWT = verifyToken(request.getAccessToken(), ACCESS_SECRET);
-        String accessJit = accessJWT.getJWTClaimsSet().getJWTID();
-        Date accessExp = accessJWT.getJWTClaimsSet().getExpirationTime();
-        invalidatedTokenRepository.save(
-            InvalidatedToken.builder()
-                .token(accessJit)
-                .expiresAt(accessExp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-                .build());
+        invalidateToken(request.getAccessToken(), accessSecret);
       }
-    } catch (AppEx e) {
-      log.info("Token already expired or invalid");
+      if (request.getRefreshToken() != null) {
+        invalidateToken(request.getRefreshToken(), refreshSecret);
+      }
+    } catch (AppException e) {
+      log.info("Token already expired or invalid: {}", e.getMessage());
     }
+  }
+
+  private void invalidateToken(String token, String secret) throws ParseException, JOSEException {
+    SignedJWT jwt = jwtTokenUtil.verifyToken(token, secret);
+    String jwtId = jwt.getJWTClaimsSet().getJWTID();
+    Date exp = jwt.getJWTClaimsSet().getExpirationTime();
+
+    invalidatedTokenRepository.save(
+        InvalidatedToken.builder()
+            .token(jwtId)
+            .expiresAt(exp.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+            .build());
   }
 
   @Override
   public AuthResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
-    var signedJWT = verifyToken(request.getRefreshToken(), REFRESH_SECRET);
+    SignedJWT jwt = jwtTokenUtil.verifyToken(request.getRefreshToken(), refreshSecret);
 
-    var jit = signedJWT.getJWTClaimsSet().getJWTID();
-    if (invalidatedTokenRepository.existsByToken(jit)) {
-      throw new AppEx(ErrorCode.UNAUTHENTICATED);
+    String jwtId = jwt.getJWTClaimsSet().getJWTID();
+    if (invalidatedTokenRepository.existsByToken(jwtId)) {
+      throw new AppException(ErrorCode.UNAUTHENTICATED);
     }
-    var email = signedJWT.getJWTClaimsSet().getSubject();
+    String email = jwt.getJWTClaimsSet().getSubject();
     var user =
-        userRepository.findByEmail(email).orElseThrow(() -> new AppEx(ErrorCode.UNAUTHENTICATED));
-    var newAccessToken = generateToken(user, 360, ACCESS_SECRET, "access");
-
+        userRepository
+            .findByEmail(email)
+            .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+    String newAccessToken = jwtTokenUtil.generateToken(user, 360, accessSecret, "access");
     return AuthResponse.builder()
         .accessToken(newAccessToken)
         .refreshToken(request.getRefreshToken())
         .build();
-  }
-
-  private SignedJWT verifyToken(String token, String secret) throws JOSEException {
-    try {
-      SignedJWT signedJWT = SignedJWT.parse(token);
-      Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-      JWSVerifier verifier = new MACVerifier(secret.getBytes());
-      boolean verified = signedJWT.verify(verifier);
-      if (!(verified && expiryTime.after(new Date()))) {
-        throw new AppEx(ErrorCode.UNAUTHENTICATED);
-      }
-      String jwtId = signedJWT.getJWTClaimsSet().getJWTID();
-      if (invalidatedTokenRepository.existsByToken(jwtId)) {
-        throw new AppEx(ErrorCode.UNAUTHENTICATED);
-      }
-      return signedJWT;
-    } catch (ParseException e) {
-      throw new AppEx(ErrorCode.UNAUTHENTICATED);
-    }
-  }
-
-  private String generateToken(User user, int expirationMinutes, String secret, String tokenType) {
-    try {
-      JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
-      String fullName =
-          (user.getFirstName() != null ? user.getFirstName() : "")
-              + " "
-              + (user.getLastName() != null ? user.getLastName() : "");
-      JWTClaimsSet jwtClaimsSet =
-          new JWTClaimsSet.Builder()
-              .subject(user.getEmail())
-              .issuer("elec")
-              .issueTime(new Date())
-              .expirationTime(Date.from(Instant.now().plus(expirationMinutes, ChronoUnit.MINUTES)))
-              .jwtID(UUID.randomUUID().toString())
-              .claim("scope", buildScope(user.getRole()))
-              .claim("name", fullName.trim())
-              .claim("token_type", tokenType)
-              .build();
-      JWSObject jwsObject = new JWSObject(header, new Payload(jwtClaimsSet.toJSONObject()));
-      jwsObject.sign(new MACSigner(secret.getBytes()));
-      return jwsObject.serialize();
-    } catch (JOSEException e) {
-      log.error("Error generating token", e);
-      throw new RuntimeException(e);
-    }
-  }
-
-  private String buildScope(Role role) {
-    if (role == null) {
-      return "";
-    }
-    return "ROLE_" + role.name().toUpperCase();
   }
 }

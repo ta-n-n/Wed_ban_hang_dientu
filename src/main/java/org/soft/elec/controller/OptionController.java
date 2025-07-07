@@ -2,55 +2,50 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.OptionRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.OptionResponse;
 import org.soft.elec.service.OptionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/options")
+@RequiredArgsConstructor
 public class OptionController {
 
-  @Autowired private OptionService optionService;
+  private final OptionService optionService;
 
   @PostMapping
-  public ApiResponse<OptionResponse> create(@RequestBody @Valid OptionRequest request) {
-    return ApiResponse.<OptionResponse>builder()
-        .success(true)
-        .data(optionService.createOption(request))
-        .build();
+  public ResponseEntity<ApiResponse<OptionResponse>> create(
+      @Valid @RequestBody OptionRequest request) {
+    OptionResponse created = optionService.createOption(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<OptionResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid OptionRequest request) {
-    return ApiResponse.<OptionResponse>builder()
-        .success(true)
-        .data(optionService.updateOption(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<OptionResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody OptionRequest request) {
+    OptionResponse updated = optionService.updateOption(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     optionService.deleteOption(id);
-    return ApiResponse.<String>builder().success(true).data("Option has been deleted").build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<OptionResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<OptionResponse>builder()
-        .success(true)
-        .data(optionService.getOptionById(id))
-        .build();
+  public ResponseEntity<ApiResponse<OptionResponse>> getById(@PathVariable Integer id) {
+    OptionResponse option = optionService.getOptionById(id);
+    return ResponseEntity.ok(ApiResponse.success(option));
   }
 
   @GetMapping
-  public ApiResponse<List<OptionResponse>> getAll() {
-    return ApiResponse.<List<OptionResponse>>builder()
-        .success(true)
-        .data(optionService.getAllOptions())
-        .build();
+  public ResponseEntity<ApiResponse<List<OptionResponse>>> getAll() {
+    List<OptionResponse> options = optionService.getAllOptions();
+    return ResponseEntity.ok(ApiResponse.success(options));
   }
 }

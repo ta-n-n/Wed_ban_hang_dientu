@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.OrderProduct;
-import org.soft.elec.entity.models.Variation;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +11,8 @@ import org.soft.elec.entity.models.Variation;
 @Builder
 public class OrderProductVariationResponse {
   private Integer id;
-  private OrderProduct orderProduct;
-  private Variation variation;
+  private OrderProductResponse orderProduct;
+  private VariationResponse variation;
   private String type;
   private String value;
 }

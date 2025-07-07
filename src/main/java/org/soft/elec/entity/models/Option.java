@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,6 +42,7 @@ public class Option {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "option")
   private List<OptionValue> values;
 }

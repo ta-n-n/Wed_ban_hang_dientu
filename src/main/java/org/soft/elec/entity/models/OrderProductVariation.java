@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -24,11 +26,13 @@ public class OrderProductVariation {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "order_product_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonBackReference
   private OrderProduct orderProduct;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "variation_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonBackReference
   private Variation variation;
 
   @Column(name = "type", nullable = false)

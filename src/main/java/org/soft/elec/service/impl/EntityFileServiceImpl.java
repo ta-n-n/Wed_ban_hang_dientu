@@ -2,34 +2,34 @@ package org.soft.elec.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.EntityFileRequest;
+import org.soft.elec.entity.dto.request.search.EntityFileSearchRequest;
 import org.soft.elec.entity.dto.response.EntityFileResponse;
-import org.soft.elec.entity.enums.ErrorCode;
 import org.soft.elec.entity.mapper.EntityFileMapper;
 import org.soft.elec.entity.models.EntityFile;
 import org.soft.elec.entity.models.File;
-import org.soft.elec.exception.AppEx;
+import org.soft.elec.exception.AppException;
+import org.soft.elec.exception.ErrorCode;
 import org.soft.elec.repository.EntityFileRepository;
 import org.soft.elec.repository.FileRepository;
 import org.soft.elec.service.EntityFileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.soft.elec.specification.EntityFileSpecification;
+import org.soft.elec.utils.PageUtil;
+import org.soft.elec.utils.SpecUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class EntityFileServiceImpl implements EntityFileService {
 
-  @Autowired private EntityFileRepository entityFileRepository;
-
-  @Autowired private FileRepository fileRepository;
-
-  @Autowired private EntityFileMapper entityFileMapper;
-
-  private void checkEntityFileExist(Integer id) {
-    if (!entityFileRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.ENTITYFILE_NOT_FOUND);
-    }
-  }
+  private final EntityFileRepository entityFileRepository;
+  private final FileRepository fileRepository;
+  private final EntityFileMapper entityFileMapper;
 
   @Override
   @Transactional
@@ -37,7 +37,7 @@ public class EntityFileServiceImpl implements EntityFileService {
     File file =
         fileRepository
             .findById(request.getFileId())
-            .orElseThrow(() -> new AppEx(ErrorCode.FILE_NOT_FOUND));
+            .orElseThrow(() -> new AppException(ErrorCode.FILE_NOT_FOUND));
     EntityFile entityFile = entityFileMapper.toEntity(request);
     entityFile.setFile(file);
     EntityFile saved = entityFileRepository.save(entityFile);
@@ -50,12 +50,12 @@ public class EntityFileServiceImpl implements EntityFileService {
     EntityFile entityFile =
         entityFileRepository
             .findById(id)
-            .orElseThrow(() -> new AppEx(ErrorCode.ENTITYFILE_NOT_FOUND));
+            .orElseThrow(() -> new AppException(ErrorCode.ENTITYFILE_NOT_FOUND));
     if (request.getFileId() != null) {
       File file =
           fileRepository
               .findById(request.getFileId())
-              .orElseThrow(() -> new AppEx(ErrorCode.FILE_NOT_FOUND));
+              .orElseThrow(() -> new AppException(ErrorCode.FILE_NOT_FOUND));
       entityFile.setFile(file);
     }
     entityFileMapper.updateEntity(request, entityFile);
@@ -66,17 +66,19 @@ public class EntityFileServiceImpl implements EntityFileService {
   @Override
   @Transactional
   public void deleteEntityFile(Integer id) {
-    checkEntityFileExist(id);
-    entityFileRepository.deleteById(id);
+    EntityFile entityFile =
+        entityFileRepository
+            .findById(id)
+            .orElseThrow(() -> new AppException(ErrorCode.ENTITYFILE_NOT_FOUND));
+    entityFileRepository.delete(entityFile);
   }
 
   @Override
-  @Transactional
   public EntityFileResponse getEntityFileById(Integer id) {
     EntityFile entityFile =
         entityFileRepository
             .findById(id)
-            .orElseThrow(() -> new AppEx(ErrorCode.ENTITYFILE_NOT_FOUND));
+            .orElseThrow(() -> new AppException(ErrorCode.ENTITYFILE_NOT_FOUND));
     return entityFileMapper.toResponse(entityFile);
   }
 
@@ -85,5 +87,15 @@ public class EntityFileServiceImpl implements EntityFileService {
     return entityFileRepository.findAll().stream()
         .map(entityFileMapper::toResponse)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Page<EntityFileResponse> searchEntityFiles(EntityFileSearchRequest request) {
+    Specification<EntityFile> spec = null;
+    spec = SpecUtil.add(spec, EntityFileSpecification.hasEntityId(request.getEntityId()));
+    spec = SpecUtil.add(spec, EntityFileSpecification.hasEntityType(request.getEntityType()));
+    spec = SpecUtil.add(spec, EntityFileSpecification.hasZone(request.getZone()));
+    Pageable pageable = PageUtil.getPageable(request);
+    return entityFileRepository.findAll(spec, pageable).map(entityFileMapper::toResponse);
   }
 }

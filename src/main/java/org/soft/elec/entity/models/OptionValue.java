@@ -1,5 +1,7 @@
 package org.soft.elec.entity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ public class OptionValue {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @JsonBackReference
   @ManyToOne
   @JoinColumn(name = "option_id")
   private Option option;

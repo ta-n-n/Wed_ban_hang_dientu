@@ -2,55 +2,50 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.ProductRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.ProductResponse;
 import org.soft.elec.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-  @Autowired private ProductService productService;
+  private final ProductService productService;
 
   @PostMapping
-  public ApiResponse<ProductResponse> create(@RequestBody @Valid ProductRequest request) {
-    return ApiResponse.<ProductResponse>builder()
-        .success(true)
-        .data(productService.createProduct(request))
-        .build();
+  public ResponseEntity<ApiResponse<ProductResponse>> create(
+      @Valid @RequestBody ProductRequest request) {
+    ProductResponse created = productService.createProduct(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<ProductResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid ProductRequest request) {
-    return ApiResponse.<ProductResponse>builder()
-        .success(true)
-        .data(productService.updateProduct(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<ProductResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody ProductRequest request) {
+    ProductResponse updated = productService.updateProduct(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     productService.deleteProduct(id);
-    return ApiResponse.<String>builder().success(true).data("Product has been deleted").build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<ProductResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<ProductResponse>builder()
-        .success(true)
-        .data(productService.getProductById(id))
-        .build();
+  public ResponseEntity<ApiResponse<ProductResponse>> getById(@PathVariable Integer id) {
+    ProductResponse result = productService.getProductById(id);
+    return ResponseEntity.ok(ApiResponse.success(result));
   }
 
   @GetMapping
-  public ApiResponse<List<ProductResponse>> getAll() {
-    return ApiResponse.<List<ProductResponse>>builder()
-        .success(true)
-        .data(productService.getAllProducts())
-        .build();
+  public ResponseEntity<ApiResponse<List<ProductResponse>>> getAll() {
+    List<ProductResponse> products = productService.getAllProducts();
+    return ResponseEntity.ok(ApiResponse.success(products));
   }
 }

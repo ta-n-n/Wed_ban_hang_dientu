@@ -2,30 +2,31 @@ package org.soft.elec.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.CategoryRequest;
+import org.soft.elec.entity.dto.request.search.CategorySearchRequest;
 import org.soft.elec.entity.dto.response.CategoryResponse;
-import org.soft.elec.entity.enums.ErrorCode;
 import org.soft.elec.entity.mapper.CategoryMapper;
 import org.soft.elec.entity.models.Category;
-import org.soft.elec.exception.AppEx;
+import org.soft.elec.exception.AppException;
+import org.soft.elec.exception.ErrorCode;
 import org.soft.elec.repository.CategoryRepository;
 import org.soft.elec.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.soft.elec.specification.CategorySpecification;
+import org.soft.elec.utils.PageUtil;
+import org.soft.elec.utils.SpecUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-  @Autowired private CategoryRepository categoryRepository;
-
-  @Autowired private CategoryMapper categoryMapper;
-
-  private void checkCategoryExist(Integer id) {
-    if (!categoryRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.CATEGORY_NOT_FOUND);
-    }
-  }
+  private final CategoryRepository categoryRepository;
+  private final CategoryMapper categoryMapper;
 
   @Override
   @Transactional
@@ -35,11 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
       parentCategory =
           categoryRepository
               .findById(request.getParentId())
-              .orElseThrow(() -> new AppEx(ErrorCode.CATEGORY_NOT_FOUND));
+              .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
     }
     Category category = categoryMapper.toEntity(request);
     category.setParent(parentCategory);
-
     Category saved = categoryRepository.save(category);
     return categoryMapper.toResponse(saved);
   }
@@ -48,8 +48,19 @@ public class CategoryServiceImpl implements CategoryService {
   @Transactional
   public CategoryResponse updateCategory(Integer id, CategoryRequest request) {
     Category category =
-        categoryRepository.findById(id).orElseThrow(() -> new AppEx(ErrorCode.CATEGORY_NOT_FOUND));
+        categoryRepository
+            .findById(id)
+            .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
     categoryMapper.updateEntity(request, category);
+    if (request.getParentId() != null) {
+      Category parent =
+          categoryRepository
+              .findById(request.getParentId())
+              .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+      category.setParent(parent);
+    } else {
+      category.setParent(null);
+    }
     Category updated = categoryRepository.save(category);
     return categoryMapper.toResponse(updated);
   }
@@ -57,14 +68,19 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   @Transactional
   public void deleteCategory(Integer id) {
-    checkCategoryExist(id);
-    categoryRepository.deleteById(id);
+    Category category =
+        categoryRepository
+            .findById(id)
+            .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+    categoryRepository.delete(category);
   }
 
   @Override
   public CategoryResponse getCategoryById(Integer id) {
     Category category =
-        categoryRepository.findById(id).orElseThrow(() -> new AppEx(ErrorCode.CATEGORY_NOT_FOUND));
+        categoryRepository
+            .findById(id)
+            .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
     return categoryMapper.toResponse(category);
   }
 
@@ -73,5 +89,18 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.findAll().stream()
         .map(categoryMapper::toResponse)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Page<CategoryResponse> searchCategories(CategorySearchRequest request) {
+    Specification<Category> spec = null;
+
+    spec = SpecUtil.add(spec, CategorySpecification.nameContains(request.getKeyword()));
+    spec = SpecUtil.add(spec, CategorySpecification.isActive(request.getIsActive()));
+    spec = SpecUtil.add(spec, CategorySpecification.hasParentId(request.getParentId()));
+
+    Pageable pageable = PageUtil.getPageable(request);
+
+    return categoryRepository.findAll(spec, pageable).map(categoryMapper::toResponse);
   }
 }

@@ -1,68 +1,31 @@
 package org.soft.elec.entity.dto.response;
 
-import org.soft.elec.exception.ApiError;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-  private boolean success;
-  private T data;
-  private ApiError error;
-
-  public ApiResponse(Builder<T> builder) {
-    this.success = builder.success;
-    this.data = builder.data;
-    this.error = builder.error;
-  }
-
-  public static <T> Builder<T> builder() {
-    return new Builder<>();
-  }
+  private int code;
+  private String message;
+  private T result;
 
   public static <T> ApiResponse<T> success(T data) {
-    return ApiResponse.<T>builder().success(true).data(data).build();
+    return ApiResponse.<T>builder().code(200).message("Success").result(data).build();
   }
 
-  public static ApiResponse<?> error(ApiError error) {
-    return ApiResponse.builder().success(false).error(error).build();
+  public static <T> ApiResponse<T> of(int code, String message, T data) {
+    return ApiResponse.<T>builder().code(code).message(message).result(data).build();
   }
 
-  public static <T> ApiResponse<T> error(ApiError error, T data) {
-    return ApiResponse.<T>builder().success(false).error(error).data(data).build();
-  }
-
-  public static class Builder<T> {
-    private boolean success;
-    private T data;
-    private ApiError error;
-
-    public Builder<T> success(boolean success) {
-      this.success = success;
-      return this;
-    }
-
-    public Builder<T> data(T data) {
-      this.data = data;
-      return this;
-    }
-
-    public Builder<T> error(ApiError error) {
-      this.error = error;
-      return this;
-    }
-
-    public ApiResponse<T> build() {
-      return new ApiResponse<>(this);
-    }
-  }
-
-  public boolean isSuccess() {
-    return success;
-  }
-
-  public T getData() {
-    return data;
-  }
-
-  public ApiError getError() {
-    return error;
+  public static <T> ApiResponse<T> error(int code, String message) {
+    return ApiResponse.<T>builder().code(code).message(message).result(null).build();
   }
 }

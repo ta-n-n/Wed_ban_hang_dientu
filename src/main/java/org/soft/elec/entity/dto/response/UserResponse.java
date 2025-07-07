@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.enums.Role;
+import org.soft.elec.constant.enums.Role;
 
 @Data
 @NoArgsConstructor

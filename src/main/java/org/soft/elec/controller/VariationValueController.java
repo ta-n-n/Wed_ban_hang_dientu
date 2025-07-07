@@ -2,59 +2,50 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.VariationValueRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.VariationValueResponse;
 import org.soft.elec.service.VariationValueService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/variation-values")
+@RequiredArgsConstructor
 public class VariationValueController {
 
-  @Autowired private VariationValueService variationValueService;
+  private final VariationValueService variationValueService;
 
   @PostMapping
-  public ApiResponse<VariationValueResponse> create(
-      @RequestBody @Valid VariationValueRequest request) {
-    return ApiResponse.<VariationValueResponse>builder()
-        .success(true)
-        .data(variationValueService.createVariationValue(request))
-        .build();
+  public ResponseEntity<ApiResponse<VariationValueResponse>> create(
+      @Valid @RequestBody VariationValueRequest request) {
+    VariationValueResponse created = variationValueService.createVariationValue(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<VariationValueResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid VariationValueRequest request) {
-    return ApiResponse.<VariationValueResponse>builder()
-        .success(true)
-        .data(variationValueService.updateVariationValue(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<VariationValueResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody VariationValueRequest request) {
+    VariationValueResponse updated = variationValueService.updateVariationValue(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     variationValueService.deleteVariationValue(id);
-    return ApiResponse.<String>builder()
-        .success(true)
-        .data("Variation Value has been deleted")
-        .build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<VariationValueResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<VariationValueResponse>builder()
-        .success(true)
-        .data(variationValueService.getVariationValueById(id))
-        .build();
+  public ResponseEntity<ApiResponse<VariationValueResponse>> getById(@PathVariable Integer id) {
+    VariationValueResponse response = variationValueService.getVariationValueById(id);
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
 
   @GetMapping
-  public ApiResponse<List<VariationValueResponse>> getAll() {
-    return ApiResponse.<List<VariationValueResponse>>builder()
-        .success(true)
-        .data(variationValueService.getAllVariationValues())
-        .build();
+  public ResponseEntity<ApiResponse<List<VariationValueResponse>>> getAll() {
+    List<VariationValueResponse> list = variationValueService.getAllVariationValues();
+    return ResponseEntity.ok(ApiResponse.success(list));
   }
 }

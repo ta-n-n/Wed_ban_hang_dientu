@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Option;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +12,7 @@ import org.soft.elec.entity.models.Option;
 @Builder
 public class OptionValueResponse {
   private Integer id;
-  private Option option;
+  private String option;
   private BigDecimal price;
   private String priceType;
   private Integer position;

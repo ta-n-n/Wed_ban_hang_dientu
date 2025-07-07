@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.soft.elec.entity.models.Product;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +14,7 @@ import org.soft.elec.entity.models.Product;
 public class ProductVariantResponse {
   private Integer id;
   private String name;
-  private Product product;
+  private String product;
   private BigDecimal price;
   private BigDecimal specialPrice;
   private Integer specialPriceType;

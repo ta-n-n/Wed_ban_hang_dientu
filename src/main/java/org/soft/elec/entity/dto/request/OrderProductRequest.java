@@ -14,6 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderProductRequest {
+
+  @NotNull(message = "Order ID cannot be null")
+  private Integer orderId;
+
   @NotNull(message = "Product ID cannot be null")
   private Integer productId;
 

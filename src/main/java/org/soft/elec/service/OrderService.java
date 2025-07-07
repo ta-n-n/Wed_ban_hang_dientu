@@ -2,7 +2,9 @@ package org.soft.elec.service;
 
 import java.util.List;
 import org.soft.elec.entity.dto.request.OrderRequest;
+import org.soft.elec.entity.dto.request.search.OrderSearchRequest;
 import org.soft.elec.entity.dto.response.OrderResponse;
+import org.springframework.data.domain.Page;
 
 public interface OrderService {
   OrderResponse createOrder(OrderRequest request);
@@ -14,4 +16,6 @@ public interface OrderService {
   OrderResponse getOrderById(Integer id);
 
   List<OrderResponse> getAllOrders();
+
+  Page<OrderResponse> searchOrders(OrderSearchRequest request);
 }

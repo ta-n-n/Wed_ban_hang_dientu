@@ -2,30 +2,31 @@ package org.soft.elec.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.UserRequest;
+import org.soft.elec.entity.dto.request.search.UserSearchRequest;
 import org.soft.elec.entity.dto.response.UserResponse;
-import org.soft.elec.entity.enums.ErrorCode;
 import org.soft.elec.entity.mapper.UserMapper;
 import org.soft.elec.entity.models.User;
-import org.soft.elec.exception.AppEx;
+import org.soft.elec.exception.AppException;
+import org.soft.elec.exception.ErrorCode;
 import org.soft.elec.repository.UserRepository;
 import org.soft.elec.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.soft.elec.specification.UserSpecification;
+import org.soft.elec.utils.PageUtil;
+import org.soft.elec.utils.SpecUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  @Autowired private UserRepository userRepository;
-
-  @Autowired private UserMapper userMapper;
-
-  private void checkUserExist(Integer id) {
-    if (!userRepository.existsById(id)) {
-      throw new AppEx(ErrorCode.USER_NOT_FOUND);
-    }
-  }
+  private final UserRepository userRepository;
+  private final UserMapper userMapper;
 
   @Override
   @Transactional
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public UserResponse updateUser(Integer id, UserRequest request) {
-    User user = userRepository.findById(id).orElseThrow(() -> new AppEx(ErrorCode.USER_NOT_FOUND));
+    User user = getUserOrThrow(id);
     userMapper.updateEntity(request, user);
     User updated = userRepository.save(user);
     return userMapper.toResponse(updated);
@@ -47,13 +48,13 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void deleteUser(Integer id) {
-    checkUserExist(id);
-    userRepository.deleteById(id);
+    User user = getUserOrThrow(id);
+    userRepository.delete(user);
   }
 
   @Override
   public UserResponse getUserById(Integer id) {
-    User user = userRepository.findById(id).orElseThrow(() -> new AppEx(ErrorCode.USER_NOT_FOUND));
+    User user = getUserOrThrow(id);
     return userMapper.toResponse(user);
   }
 
@@ -62,5 +63,26 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll().stream()
         .map(userMapper::toResponse)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Page<UserResponse> searchUsers(UserSearchRequest request) {
+    Specification<User> spec = null;
+
+    spec = SpecUtil.add(spec, UserSpecification.keywordContains(request.getKeyword()));
+    spec = SpecUtil.add(spec, UserSpecification.hasRole(request.getRole()));
+    spec = SpecUtil.add(spec, UserSpecification.isEnabled(request.getEnabled()));
+
+    Pageable pageable = PageUtil.getPageable(request);
+
+    Page<User> page = userRepository.findAll(spec, pageable);
+    return page.map(userMapper::toResponse);
+  }
+
+  // === Helper ===
+  private User getUserOrThrow(Integer id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
   }
 }

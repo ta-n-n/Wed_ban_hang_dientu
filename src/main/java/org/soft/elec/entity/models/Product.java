@@ -1,6 +1,7 @@
 package org.soft.elec.entity.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -112,5 +113,6 @@ public class Product {
   private List<Option> options; // Các tùy chọn (options) cho sản phẩm
 
   @OneToMany(mappedBy = "product")
+  @JsonManagedReference
   private List<ProductVariant> variants; // Các biến thể của sản phẩm (size, color, v.v.)
 }

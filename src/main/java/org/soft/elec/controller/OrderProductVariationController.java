@@ -2,59 +2,55 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.OrderProductVariationRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.OrderProductVariationResponse;
 import org.soft.elec.service.OrderProductVariationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/order-product-variations")
+@RequiredArgsConstructor
 public class OrderProductVariationController {
 
-  @Autowired private OrderProductVariationService orderProductVariationService;
+  private final OrderProductVariationService orderProductVariationService;
 
   @PostMapping
-  public ApiResponse<OrderProductVariationResponse> create(
-      @RequestBody @Valid OrderProductVariationRequest request) {
-    return ApiResponse.<OrderProductVariationResponse>builder()
-        .success(true)
-        .data(orderProductVariationService.createOrderProductVariation(request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationResponse>> create(
+      @Valid @RequestBody OrderProductVariationRequest request) {
+    OrderProductVariationResponse created =
+        orderProductVariationService.createOrderProductVariation(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<OrderProductVariationResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid OrderProductVariationRequest request) {
-    return ApiResponse.<OrderProductVariationResponse>builder()
-        .success(true)
-        .data(orderProductVariationService.updateOrderProductVariation(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody OrderProductVariationRequest request) {
+    OrderProductVariationResponse updated =
+        orderProductVariationService.updateOrderProductVariation(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     orderProductVariationService.deleteOrderProductVariation(id);
-    return ApiResponse.<String>builder()
-        .success(true)
-        .data("Order Product Variation has been deleted")
-        .build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<OrderProductVariationResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<OrderProductVariationResponse>builder()
-        .success(true)
-        .data(orderProductVariationService.getOrderProductVariationById(id))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductVariationResponse>> getById(
+      @PathVariable Integer id) {
+    OrderProductVariationResponse result =
+        orderProductVariationService.getOrderProductVariationById(id);
+    return ResponseEntity.ok(ApiResponse.success(result));
   }
 
   @GetMapping
-  public ApiResponse<List<OrderProductVariationResponse>> getAll() {
-    return ApiResponse.<List<OrderProductVariationResponse>>builder()
-        .success(true)
-        .data(orderProductVariationService.getAllOrderProductVariations())
-        .build();
+  public ResponseEntity<ApiResponse<List<OrderProductVariationResponse>>> getAll() {
+    List<OrderProductVariationResponse> list =
+        orderProductVariationService.getAllOrderProductVariations();
+    return ResponseEntity.ok(ApiResponse.success(list));
   }
 }

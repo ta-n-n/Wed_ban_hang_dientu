@@ -2,58 +2,50 @@ package org.soft.elec.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.soft.elec.entity.dto.request.OrderProductRequest;
 import org.soft.elec.entity.dto.response.ApiResponse;
 import org.soft.elec.entity.dto.response.OrderProductResponse;
 import org.soft.elec.service.OrderProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/order-products")
+@RequiredArgsConstructor
 public class OrderProductController {
 
-  @Autowired private OrderProductService orderProductService;
+  private final OrderProductService orderProductService;
 
   @PostMapping
-  public ApiResponse<OrderProductResponse> create(@RequestBody @Valid OrderProductRequest request) {
-    return ApiResponse.<OrderProductResponse>builder()
-        .success(true)
-        .data(orderProductService.createOrderProduct(request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductResponse>> create(
+      @Valid @RequestBody OrderProductRequest request) {
+    OrderProductResponse created = orderProductService.createOrderProduct(request);
+    return ResponseEntity.ok(ApiResponse.success(created));
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<OrderProductResponse> update(
-      @PathVariable Integer id, @RequestBody @Valid OrderProductRequest request) {
-    return ApiResponse.<OrderProductResponse>builder()
-        .success(true)
-        .data(orderProductService.updateOrderProduct(id, request))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductResponse>> update(
+      @PathVariable Integer id, @Valid @RequestBody OrderProductRequest request) {
+    OrderProductResponse updated = orderProductService.updateOrderProduct(id, request);
+    return ResponseEntity.ok(ApiResponse.success(updated));
   }
 
   @DeleteMapping("/{id}")
-  public ApiResponse<String> delete(@PathVariable Integer id) {
+  public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
     orderProductService.deleteOrderProduct(id);
-    return ApiResponse.<String>builder()
-        .success(true)
-        .data("Order product has been deleted")
-        .build();
+    return ResponseEntity.ok(ApiResponse.success(null));
   }
 
   @GetMapping("/{id}")
-  public ApiResponse<OrderProductResponse> getById(@PathVariable Integer id) {
-    return ApiResponse.<OrderProductResponse>builder()
-        .success(true)
-        .data(orderProductService.getOrderProductById(id))
-        .build();
+  public ResponseEntity<ApiResponse<OrderProductResponse>> getById(@PathVariable Integer id) {
+    OrderProductResponse orderProduct = orderProductService.getOrderProductById(id);
+    return ResponseEntity.ok(ApiResponse.success(orderProduct));
   }
 
   @GetMapping
-  public ApiResponse<List<OrderProductResponse>> getAll() {
-    return ApiResponse.<List<OrderProductResponse>>builder()
-        .success(true)
-        .data(orderProductService.getAllOrderProducts())
-        .build();
+  public ResponseEntity<ApiResponse<List<OrderProductResponse>>> getAll() {
+    List<OrderProductResponse> list = orderProductService.getAllOrderProducts();
+    return ResponseEntity.ok(ApiResponse.success(list));
   }
 }
