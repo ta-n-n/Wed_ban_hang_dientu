@@ -15,6 +15,7 @@ public enum ErrorCode {
   INVALID_OTP(HttpStatus.BAD_REQUEST, "Invalid OTP."),
   OTP_EXPIRED(HttpStatus.BAD_REQUEST, "OTP has expired."),
   INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Old password is incorrect."),
+  INVALID_ROLE(HttpStatus.BAD_REQUEST, "Invalid role."),
 
   // 404 Not Found
   BRAND_NOT_FOUND(HttpStatus.NOT_FOUND, "Brand not found."),

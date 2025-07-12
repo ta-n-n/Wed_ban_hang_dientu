@@ -11,6 +11,5 @@ public interface UserMapper {
   User toEntity(UserRequest userRequest);
 
   UserResponse toResponse(User user);
-
   void updateEntity(UserRequest userRequest, @MappingTarget User user);
 }

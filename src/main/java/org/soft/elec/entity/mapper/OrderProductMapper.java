@@ -11,9 +11,9 @@ import org.soft.elec.entity.models.OrderProduct;
 public interface OrderProductMapper {
   OrderProduct toEntity(OrderProductRequest orderProductRequest);
 
-//  @Mapping(source = "order.id", target = "order")
-//  @Mapping(source = "product.name", target = "product")
-//  @Mapping(source = "productVariant.name", target = "productVariant")
+    @Mapping(source = "order.id", target = "order")
+    @Mapping(source = "product.name", target = "product")
+    @Mapping(source = "productVariant.name", target = "productVariant")
   OrderProductResponse toResponse(OrderProduct orderProduct);
 
   void updateEntity(
