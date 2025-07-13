@@ -50,7 +50,7 @@ public class JwtTokenUtil {
 
     } catch (JOSEException e) {
       log.error("Error generating token", e);
-      throw new RuntimeException(e);
+      throw new AppException(ErrorCode.TOKEN_GENERATION_FAILED);
     }
   }
 

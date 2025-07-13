@@ -7,5 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ElecApplicationTests {
 
   @Test
-  void contextLoads() {}
+  void contextLoads() {
+    // Test context loading
+  }
 }

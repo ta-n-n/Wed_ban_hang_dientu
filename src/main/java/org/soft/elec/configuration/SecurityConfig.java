@@ -16,11 +16,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-  private final String[] PUBLIC_ENDPOINTS = {"/api/v1/uploads/**", "/api/v1/auth/**", "/ws/**"};
+  private final String[] publicEndpoints = {"/api/v1/uploads/**", "/api/v1/auth/**", "/ws/**"};
 
-  private final JwtDecoder jwtDecoder;
+  private final CustomJwtDecoder jwtDecoder;
 
-  public SecurityConfig(JwtDecoder jwtDecoder) {
+  public SecurityConfig(CustomJwtDecoder jwtDecoder) {
     this.jwtDecoder = jwtDecoder;
   }
 
@@ -30,7 +30,7 @@ public class SecurityConfig {
         .cors(cors -> cors.configure(httpSecurity))
         .authorizeHttpRequests(
             request ->
-                request.requestMatchers(PUBLIC_ENDPOINTS).permitAll().anyRequest().authenticated());
+                request.requestMatchers(publicEndpoints).permitAll().anyRequest().authenticated());
     httpSecurity.oauth2ResourceServer(
         oauth2 ->
             oauth2

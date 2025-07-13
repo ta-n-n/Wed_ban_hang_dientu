@@ -16,14 +16,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtDecoder implements org.springframework.security.oauth2.jwt.JwtDecoder {
+public class CustomJwtDecoder implements org.springframework.security.oauth2.jwt.JwtDecoder {
 
   @Value("${security.jwt.access-secret}")
   private String accessSecretKey;
 
   private final AuthService authService;
 
-  public JwtDecoder(AuthService authService) {
+  public CustomJwtDecoder(AuthService authService) {
     this.authService = authService;
   }
 

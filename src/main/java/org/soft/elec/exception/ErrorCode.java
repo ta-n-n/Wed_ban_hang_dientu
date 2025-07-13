@@ -66,7 +66,8 @@ public enum ErrorCode {
   NOT_ACTIVE(HttpStatus.FORBIDDEN, "This account is not active."),
 
   // 500 Internal Server Error
-  INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+  INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"),
+  TOKEN_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred while generating JWT token.");
 
   private final HttpStatus status;
   private final String message;

@@ -4,6 +4,7 @@ import org.soft.elec.entity.models.Brand;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BrandSpecification {
+  private BrandSpecification() {}
   public static Specification<Brand> nameContains(String keyword) {
     return (root, query, cb) -> {
       if (keyword == null || keyword.isBlank()) return null;
