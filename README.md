@@ -1001,7 +1001,7 @@ public String generateToken(User user, int expirationMinutes, String secret, Str
         return signedJWT.serialize();
     } catch (JOSEException e) {
         log.error("Error generating token", e);
-        throw new AppException(ErrorCode.TOKEN_GENERATION_FAILED); // ✅ Dùng custom exception rõ nghĩa
+        throw new AppException(ErrorCode.TOKEN_GENERATION_FAILED); // Dùng custom exception
     }
 }
 ```
